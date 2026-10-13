@@ -1,0 +1,1653 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A free, private debt check for families and small businesses. See your chance of falling behind on payments and get a plan, in English, Español, 中文, Tiếng Việt and 한국어.">
+<meta property="og:title" content="Ten Thousand Futures">
+<meta property="og:description" content="A free, private debt check for families and small businesses. See your chance of falling behind on payments and get a plan, in English, Español, 中文, Tiếng Việt and 한국어.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 26'%3E%3Cpath d='M2 14 C7 13 9 6 13 7 S19 13 24 4' fill='none' stroke='%230f6b5c' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M2 14 C7 15 9 19 13 17 S19 18 24 22' fill='none' stroke='%23b4531a' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M2 14 C7 14 10 12 13 12 S19 11 24 12' fill='none' stroke='%2317231f' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ten Thousand Futures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: three views (home, questions, results) under a slim top bar with language and text-size controls */
+:root {
+  --bg: #f6f7f4;
+  --panel: #ffffff;
+  --ink: #17231f;
+  --muted: #56655f;
+  --line: #dde3df;
+  --accent: #0f6b5c;
+  --accent-soft: rgba(15,107,92,.13);
+  --risk: #b4531a;
+  --risk-soft: rgba(180,83,26,.12);
+  --good: #2f7d32;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, "PingFang SC", "Malgun Gothic", sans-serif;
+  --f-body: "Instrument Sans", "Segoe UI", system-ui, "PingFang SC", "Microsoft YaHei", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111816; --panel: #18211e; --ink: #e6ede9; --muted: #9aaaa3; --line: #2a3632;
+  --accent: #4fc2a9; --accent-soft: rgba(79,194,169,.17); --risk: #f0915a; --risk-soft: rgba(240,145,90,.16); --good: #7cc47f;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111816; --panel: #18211e; --ink: #e6ede9; --muted: #9aaaa3; --line: #2a3632;
+  --accent: #4fc2a9; --accent-soft: rgba(79,194,169,.17); --risk: #f0915a; --risk-soft: rgba(240,145,90,.16); --good: #7cc47f;
+  color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.55; }
+.big-text .view, .big-text .topbar, .big-text .loader { zoom: 1.2; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--panel); padding: 8px 12px; border-radius: 6px; z-index: 30; }
+.skip:focus { left: 12px; }
+
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); }
+.topbar-in { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 10px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
+.brand { font: 800 18px/1 var(--f-display); letter-spacing: -.01em; background: none; border: 0; padding: 4px 0; color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.brand svg { flex: none; }
+.tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.tools label { font-size: 13px; color: var(--muted); }
+.tools select { font: 500 15px var(--f-body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; min-height: 40px; }
+.chip { font: 600 14px var(--f-body); background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; min-height: 40px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+
+.view { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; }
+.eyebrow { font: 600 12px/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 800 clamp(32px, 5.6vw, 54px)/1.03 var(--f-display); margin: 0; text-wrap: balance; letter-spacing: -.015em; max-width: 18ch; }
+h2 { font: 800 clamp(22px, 3.4vw, 30px)/1.12 var(--f-display); margin: 0; text-wrap: balance; }
+h3 { font: 600 19px/1.25 var(--f-display); margin: 0; }
+p { margin: 0; }
+.lede { font-size: 18px; color: var(--muted); max-width: 60ch; }
+.muted { color: var(--muted); }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+[tabindex="-1"]:focus { outline: none; }
+
+/* Buttons */
+button { font-family: var(--f-body); cursor: pointer; transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease, color .2s ease; }
+button:active { transform: scale(.97); }
+.btn { font-weight: 600; font-size: 16px; border-radius: 10px; padding: 12px 20px; min-height: 48px; border: 1px solid var(--accent); }
+.primary { background: var(--accent); color: var(--panel); }
+.primary:hover { box-shadow: 0 8px 20px -8px var(--accent); transform: translateY(-1px); }
+.ghost { background: transparent; color: var(--accent); }
+.ghost:hover { background: var(--accent-soft); }
+.plain { background: var(--panel); color: var(--ink); border-color: var(--line); }
+.plain:hover { border-color: var(--accent); }
+.arrow { display: inline-block; margin-left: 8px; transition: transform .2s ease; }
+.btn:hover .arrow { transform: translateX(4px); }
+.linkbtn { background: none; border: 0; padding: 6px 0; color: var(--muted); font-size: 15px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn:hover { color: var(--accent); }
+
+/* Home */
+.home-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); gap: 32px; align-items: start; }
+@media (max-width: 880px) { .home-grid { grid-template-columns: minmax(0, 1fr); } }
+.hero { display: grid; gap: 16px; }
+.pick-label { font: 600 15px var(--f-body); margin-top: 8px; }
+.profiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .profiles { grid-template-columns: minmax(0, 1fr); } }
+.profile { text-align: left; background: var(--panel); color: var(--ink); border: 1.5px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 10px; align-content: start; min-height: 150px; }
+.profile:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 24px -14px var(--accent); }
+.profile .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+.profile b { font: 800 20px/1.1 var(--f-display); }
+.profile span { font-size: 14px; color: var(--muted); }
+.profile .go { font-size: 14px; color: var(--accent); font-weight: 600; }
+.trust { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; color: var(--muted); }
+.trust span { display: inline-flex; gap: 6px; align-items: center; }
+.trust svg { color: var(--accent); flex: none; }
+.side { display: grid; gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; }
+.card ol { margin: 0; padding-left: 20px; display: grid; gap: 8px; color: var(--muted); font-size: 15px; }
+.tally { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tally div { display: grid; gap: 2px; }
+.tally b { font: 800 26px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.tally span { font-size: 12px; color: var(--muted); line-height: 1.3; }
+
+/* Wizard */
+.wiz { max-width: 640px; margin: 0 auto; display: grid; gap: 20px; }
+.progress { display: grid; gap: 8px; }
+.progress .meta { display: flex; justify-content: space-between; gap: 10px; font: 600 13px var(--f-mono); color: var(--muted); }
+.bar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width .35s ease; }
+.fields { display: grid; gap: 22px; }
+.field { display: grid; gap: 8px; }
+.field > label, .field > .flabel { font: 600 16px var(--f-body); }
+.help { font-size: 14px; color: var(--muted); margin-top: -4px; }
+.inbox { display: flex; align-items: stretch; border: 1.5px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; max-width: 320px; transition: border-color .2s ease; }
+.inbox:focus-within { border-color: var(--accent); }
+.inbox .affix { display: grid; place-items: center; padding: 0 12px; font: 600 16px var(--f-mono); color: var(--muted); background: var(--bg); }
+.inbox input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--ink); font: 600 20px var(--f-mono); padding: 11px 12px; font-variant-numeric: tabular-nums; }
+.inbox input:focus { outline: none; }
+.seg { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: 8px; }
+.seg button { text-align: left; font: 500 15px/1.3 var(--f-body); background: var(--panel); color: var(--ink); border: 1.5px solid var(--line); border-radius: 10px; padding: 11px 14px; min-height: 48px; }
+.seg button:hover { border-color: var(--accent); }
+.seg button[aria-checked="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+.wiz-nav { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 18px; }
+.wiz-nav .right { display: flex; gap: 10px; flex-wrap: wrap; }
+.warn { font-size: 14px; color: var(--risk); }
+
+/* Loader */
+.loader { position: fixed; inset: 0; z-index: 20; background: var(--bg); display: grid; place-items: center; padding-inline: 20px; padding-block: calc(20px + env(safe-area-inset-top, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)); }
+.loader-in { width: min(560px, 100%); display: grid; gap: 14px; text-align: center; }
+.loader canvas { width: 100%; height: 190px; display: block; }
+.ld-num b { font: 800 clamp(40px, 9vw, 64px)/1 var(--f-display); font-variant-numeric: tabular-nums; display: block; margin-bottom: 4px; }
+.ld-num span { color: var(--muted); }
+.ld-msg { font: 500 14px var(--f-mono); color: var(--accent); min-height: 1.5em; }
+.ld-bar { height: 4px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.ld-bar i { display: block; height: 100%; width: 0; background: var(--accent); }
+
+/* Results */
+.res { max-width: 900px; margin: 0 auto; display: grid; gap: 20px; }
+.res-head { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
+.verdict { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 240px); gap: 20px 28px; align-items: center; }
+@media (max-width: 680px) { .verdict { grid-template-columns: minmax(0, 1fr); } }
+.v-main { display: grid; gap: 10px; }
+.big { font: 800 clamp(56px, 11vw, 88px)/0.95 var(--f-display); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.pill { justify-self: start; font: 600 13px/1 var(--f-mono); letter-spacing: .05em; text-transform: uppercase; padding: 7px 11px; border-radius: 999px; }
+.pill.low { background: var(--accent-soft); color: var(--good); }
+.pill.mid { background: var(--risk-soft); color: var(--risk); }
+.pill.high { background: var(--risk); color: var(--panel); }
+.freq { font-size: 18px; max-width: 46ch; }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; max-width: 240px; }
+.dots i { aspect-ratio: 1; border-radius: 50%; background: var(--accent); opacity: .85; }
+.dots i.f { background: var(--risk); opacity: 1; }
+.dot-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.dot-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions .btn { font-size: 15px; padding: 9px 14px; min-height: 44px; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 680px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 4px; align-content: start; }
+.kpi span { font-size: 13px; color: var(--muted); line-height: 1.3; }
+.kpi b { font: 600 20px var(--f-mono); font-variant-numeric: tabular-nums; }
+.kpi.bad b { color: var(--risk); }
+.kpi.ok b { color: var(--good); }
+.cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 20px; align-items: start; }
+@media (max-width: 780px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.good li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; font-size: 15px; }
+.good li::before { content: "✓"; width: 24px; height: 24px; border-radius: 50%; background: var(--accent-soft); color: var(--good); display: grid; place-items: center; font-weight: 700; font-size: 13px; }
+.plan { counter-reset: step; }
+.plan li { counter-increment: step; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.plan li:last-child { border-bottom: 0; padding-bottom: 0; }
+.plan li::before { content: counter(step); width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--panel); display: grid; place-items: center; font: 800 16px var(--f-display); }
+.plan li.urgent::before { background: var(--risk); }
+.plan h4 { font: 600 16px/1.3 var(--f-body); margin: 4px 0 4px; }
+.plan p { font-size: 15px; color: var(--muted); }
+.impact { display: inline-block; margin-top: 8px; font: 600 13px var(--f-mono); color: var(--good); background: var(--accent-soft); padding: 4px 8px; border-radius: 6px; }
+details.charts { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 4px 18px; }
+details.charts summary { cursor: pointer; font: 600 16px var(--f-body); padding: 12px 0; }
+.chart { display: grid; gap: 8px; padding-block: 12px; border-top: 1px solid var(--line); min-width: 0; }
+.chart canvas { width: 100%; height: 240px; display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--muted); }
+.legend i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; margin-right: 6px; }
+.resources { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 10px; }
+.resources a { display: grid; gap: 4px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); text-decoration: none; color: var(--ink); transition: border-color .2s ease, transform .15s ease; }
+.resources a:hover { border-color: var(--accent); transform: translateY(-1px); }
+.resources b { font-weight: 600; color: var(--accent); }
+.resources span { font-size: 14px; color: var(--muted); }
+.fine { font-size: 13px; color: var(--muted); }
+.how { margin: 0; padding: 4px 0 14px 20px; display: grid; gap: 8px; font-size: 15px; color: var(--muted); max-width: 70ch; }
+
+/* Survey */
+.survey { background: var(--panel); border: 2px solid var(--accent); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+.survey .intro { font-size: 15px; max-width: 64ch; }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 8px; }
+.opt { text-align: left; font: 500 15px/1.3 var(--f-body); background: var(--bg); color: var(--ink); border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; min-height: 48px; }
+.opt:hover { border-color: var(--accent); transform: translateY(-1px); }
+.opt[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.opt[aria-pressed="true"]::after { content: "✓"; float: right; color: var(--accent); font-weight: 700; }
+.opt.quiet { color: var(--muted); }
+.sv-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+.thanks b { font: 800 26px/1.15 var(--f-display); color: var(--accent); display: block; margin-bottom: 6px; }
+
+/* Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .view.enter > * > * { animation: rise .45s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 70ms); }
+  .q-enter { animation: slideIn .3s ease both; }
+  .opt[aria-pressed="true"], .seg button[aria-checked="true"] { animation: picked .28s ease; }
+  .invite { animation: nudge 2.2s ease-in-out 1s 2; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: none; } }
+@keyframes picked { 50% { transform: scale(1.025); } }
+@keyframes nudge { 0%, 100% { transform: none; } 50% { transform: translateY(-3px); box-shadow: 0 12px 26px -14px var(--accent); } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" id="skipLink" data-i18n="skip">Skip to main content</a>
+<div class="topbar">
+  <div class="topbar-in">
+    <button type="button" class="brand" id="brand" aria-label="Ten Thousand Futures">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M2 14 C7 13 9 6 13 7 S19 13 24 4" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/><path d="M2 14 C7 15 9 19 13 17 S19 18 24 22" fill="none" stroke="var(--risk)" stroke-width="2.4" stroke-linecap="round" opacity=".8"/><path d="M2 14 C7 14 10 12 13 12 S19 11 24 12" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span>Ten Thousand Futures</span>
+    </button>
+    <div class="tools">
+      <label for="lang" data-i18n="langLabel">Language</label>
+      <select id="lang">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="zh">中文（简体）</option>
+        <option value="vi">Tiếng Việt</option>
+        <option value="ko">한국어</option>
+      </select>
+      <button type="button" class="chip" id="bigText" aria-pressed="false"><span aria-hidden="true">A+ </span><span data-i18n="bigText">Larger text</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<main class="view" id="home">
+  <div class="home-grid" id="main" tabindex="-1">
+    <section class="hero">
+      <span class="eyebrow" data-i18n="h.eyebrow">Free debt check</span>
+      <h1 data-i18n="h.title">Will your debt be okay, even in a bad year?</h1>
+      <p class="lede" data-i18n="h.sub">Answer a few questions. We play out ten thousand possible futures for your money, then show your chance of falling behind, what you're doing well, and a plan for what to do next.</p>
+      <p class="pick-label" data-i18n="h.pick">Who is this for?</p>
+      <div class="profiles">
+        <button type="button" class="profile invite" data-profile="me">
+          <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <b data-i18n="p.me">Just me</b><span data-i18n="p.me.d">My own income, bills and debts</span><span class="go" data-i18n="start">Start →</span>
+        </button>
+        <button type="button" class="profile" data-profile="family">
+          <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="9" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 20c.8-3.3 3-5 6-5s5.2 1.7 6 5M14 20c.5-2.5 1.8-4 4-4s3.3 1.5 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <b data-i18n="p.family">My family</b><span data-i18n="p.family.d">A household budget with one or more earners</span><span class="go" data-i18n="start">Start →</span>
+        </button>
+        <button type="button" class="profile" data-profile="biz">
+          <span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l1.5-5h15L21 10M4 10v10h16V10M3 10h18M9 20v-5h6v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <b data-i18n="p.biz">Our business</b><span data-i18n="p.biz.d">A small or family-run business with a loan</span><span class="go" data-i18n="start">Start →</span>
+        </button>
+      </div>
+      <div class="trust">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="h.time">About 2 minutes</span></span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="h.private">Your numbers stay on your device</span></span>
+        <span><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="h.noid">No name, ID or immigration questions</span></span>
+      </div>
+    </section>
+    <aside class="side">
+      <div class="card" id="tallyCard" hidden>
+        <span class="eyebrow" data-i18n="t.label">So far</span>
+        <div class="tally" aria-live="polite">
+          <div><b id="tRuns">0</b><span data-i18n="t.runs">checks run</span></div>
+          <div><b id="tAnswers">0</b><span data-i18n="t.answers">helped the research</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="how.t">How it works</h3>
+        <ol><li data-i18n="how.1"></li><li data-i18n="how.2"></li><li data-i18n="how.3"></li></ol>
+      </div>
+      <div class="card">
+        <h3 data-i18n="why.t">Why this exists</h3>
+        <p class="muted" data-i18n="why.b"></p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- QUESTIONS -->
+<main class="view" id="wizard" hidden>
+  <div class="wiz" tabindex="-1" id="wizTop">
+    <div class="progress">
+      <div class="meta"><span id="wStep"></span><span id="wWho"></span></div>
+      <div class="bar"><i id="wBar"></i></div>
+    </div>
+    <h2 id="wTitle"></h2>
+    <div class="fields" id="wFields"></div>
+    <p class="warn" id="wWarn" hidden></p>
+    <div class="wiz-nav">
+      <button type="button" class="linkbtn" id="wBack"></button>
+      <div class="right">
+        <button type="button" class="btn ghost" id="wExample" data-i18n="w.example">Use example numbers</button>
+        <button type="button" class="btn primary" id="wNext"></button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="loader" id="loader" hidden role="status" aria-live="polite">
+  <div class="loader-in">
+    <canvas id="ldCanvas" aria-hidden="true"></canvas>
+    <div class="ld-num"><b id="ldCount">0</b><span id="ldOf"></span></div>
+    <div class="ld-bar"><i id="ldBar"></i></div>
+    <p class="ld-msg" id="ldMsg"></p>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<main class="view" id="results" hidden>
+  <div class="res" id="resTop" tabindex="-1">
+    <div class="res-head">
+      <div><span class="eyebrow" data-i18n="r.eyebrow">Your results</span><h2 id="rTitle">Your chance of falling behind on payments</h2></div>
+      <button type="button" class="btn plain" id="rEdit" data-i18n="r.edit">Change my answers</button>
+    </div>
+
+    <section class="verdict" aria-labelledby="pDefault">
+      <div class="v-main">
+        <div class="big" id="pDefault">–</div>
+        <span class="pill" id="riskPill"></span>
+        <p class="freq" id="freq"></p>
+        <p class="muted" id="whenTxt"></p>
+        <div class="actions">
+          <button type="button" class="btn plain" id="listen" hidden><span aria-hidden="true">🔊 </span><span id="listenTxt"></span></button>
+          <button type="button" class="btn plain" id="copyPlan"><span id="copyTxt"></span></button>
+          <button type="button" class="btn plain" id="savePlan" hidden><span data-i18n="r.save">Save my plan</span></button>
+        </div>
+      </div>
+      <div>
+        <div class="dots" id="dots" role="img"></div>
+        <div class="dot-legend"><span><i style="background:var(--accent)"></i><span data-i18n="r.ok">Stays on track</span></span><span><i style="background:var(--risk)"></i><span data-i18n="r.behind">Falls behind</span></span></div>
+        <p class="fine" style="margin-top:6px" data-i18n="r.dotNote">Each dot is 1 of 100 possible futures.</p>
+      </div>
+    </section>
+
+    <section class="survey" id="survey" hidden aria-live="polite">
+      <div><span class="eyebrow" data-i18n="sv.eyebrow">A favor from a high school researcher</span><h3 id="svHead" style="margin-top:6px"></h3></div>
+      <p class="intro" id="svIntro"></p>
+      <div id="svQuiz">
+        <div class="progress"><div class="meta"><span id="svStep"></span><span id="svTime"></span></div><div class="bar"><i id="svBar"></i></div></div>
+        <p id="svPrompt" style="font-weight:600;font-size:17px;margin-top:14px"></p>
+        <div class="opts" id="svOpts" style="margin-top:10px"></div>
+        <div class="sv-foot" style="margin-top:12px"><button type="button" class="linkbtn" id="svBack"></button><button type="button" class="linkbtn" id="svSkip"></button></div>
+      </div>
+      <div class="thanks" id="svThanks" hidden><b id="svThanksNum"></b><p class="intro" data-i18n="sv.thanksB"></p><div class="sv-foot" style="margin-top:10px;align-items:center"><button type="button" class="linkbtn" id="svEdit" data-i18n="sv.edit"></button><button type="button" class="btn ghost" id="svNext" data-i18n="sv.next"></button></div></div>
+      <p class="fine" data-i18n="sv.fine"></p>
+    </section>
+
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="cols">
+      <section class="card"><h3 data-i18n="g.t">What you're doing well</h3><ul class="list good" id="goodList"></ul></section>
+      <section class="card"><h3 data-i18n="pl.t">Your plan</h3><p class="fine" data-i18n="pl.sub">Most helpful steps first.</p><ol class="list plan" id="planList"></ol></section>
+    </div>
+
+    <details class="charts" id="chartsBox">
+      <summary data-i18n="ch.open">See the charts</summary>
+      <div class="chart">
+        <h3 data-i18n="ch.cash.t">Your savings across all futures</h3>
+        <p class="fine" data-i18n="ch.cash.p"></p>
+        <canvas id="fan" role="img"></canvas>
+        <div class="legend"><span><i style="background:var(--accent)"></i><span data-i18n="ch.median">Typical future</span></span><span><i style="background:var(--accent-soft);outline:1px solid var(--accent)"></i><span data-i18n="ch.mid">Middle half</span></span><span><i style="background:var(--accent-soft)"></i><span data-i18n="ch.wide">Most futures</span></span><span><i style="background:var(--risk)"></i><span data-i18n="ch.zero">Savings run out</span></span></div>
+      </div>
+      <div class="chart">
+        <h3 data-i18n="ch.surv.t">Futures still on track</h3>
+        <p class="fine" data-i18n="ch.surv.p"></p>
+        <canvas id="surv" role="img"></canvas>
+      </div>
+    </details>
+
+    <details class="charts" id="howBox">
+      <summary data-i18n="m.title">How this was calculated</summary>
+      <ul class="how" id="howList"></ul>
+    </details>
+
+    <section class="card">
+      <h3 data-i18n="rs.t">Free and low-cost help</h3>
+      <div class="resources" id="resList"></div>
+      <p class="fine" data-i18n="rs.note"></p>
+    </section>
+
+    <div class="actions" style="justify-content:space-between">
+      <button type="button" class="btn ghost" id="rerun" data-i18n="r.rerun">Run again with new random futures</button>
+      <button type="button" class="btn plain" id="restart" data-i18n="r.restart">Start over</button>
+    </div>
+    <p class="fine" data-i18n="r.disclaimer"></p>
+  </div>
+</main>
+
+<script>
+(function () {
+"use strict";
+
+/* ================= SETTINGS =================
+   SURVEY_ENDPOINT: paste your Google Apps Script Web app URL between the quotes.
+   It looks like https://script.google.com/macros/s/.../exec
+   Leave it empty and the site still works; it just won't save survey answers.   */
+const SURVEY_ENDPOINT = "";
+/* ============================================ */
+
+const IN_VIEWER = !!(window.claude && typeof window.claude.use === "function");   /* true inside the claude.ai preview */
+const SHEET = !IN_VIEWER && !!SURVEY_ENDPOINT;                                     /* true on the public site once connected */
+const $ = id => document.getElementById(id);
+const store = {
+  get(k) { try { return JSON.parse(localStorage.getItem("ttf:" + k)); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem("ttf:" + k, JSON.stringify(v)); } catch (e) {} }
+};
+
+/* ---------------- Translations ---------------- */
+const I18N = {
+en: {
+  skip: "Skip to main content", langLabel: "Language", bigText: "Larger text",
+  "h.eyebrow": "Free debt check", "h.title": "Will your debt be okay, even in a bad year?",
+  "h.sub": "Answer a few questions. We play out ten thousand possible futures for your money, then show your chance of falling behind, what you're doing well, and a plan for what to do next.",
+  "h.pick": "Who is this for?", start: "Start →",
+  "p.me": "Just me", "p.me.d": "My own income, bills and debts",
+  "p.family": "My family", "p.family.d": "A household budget with one or more earners",
+  "p.biz": "Our business", "p.biz.d": "A small or family-run business with a loan",
+  "h.time": "About 2 minutes", "h.private": "Your numbers stay on your device", "h.noid": "No questions about your name, ID or immigration status",
+  "t.label": "So far", "t.runs": "checks run", "t.people": "people", "t.answers": "helped the research",
+  "how.t": "How it works",
+  "how.1": "Tell us what comes in, what goes out, and what you owe.",
+  "how.2": "We play out ten thousand possible futures, including bad months like a lost job, an illness or a slow season.",
+  "how.3": "You see how many futures stay on track, and get a plan to improve your odds.",
+  "why.t": "Why this exists",
+  "why.b": "Many immigrant families run households and businesses on thin margins, support relatives abroad, and borrow from lenders who don't understand those pressures. A high school student built this tool so families can see their risk clearly and plan ahead.",
+  "w.step": "Step {n} of {t}", "w.next": "Next", "w.run": "See my results", "w.back": "← Back", "w.backHome": "← Change who this is for", "w.example": "Use example numbers",
+  "w.s1": "Money coming in", "w.s2": "Money going out", "w.s3": "Debt and savings",
+  "w.warnPay": "Enter a monthly payment so we can check your debt.",
+  "f.income.me": "Take-home pay per month", "f.income.me.h": "After taxes. Include every job.",
+  "f.income.family": "Household take-home pay per month", "f.income.family.h": "Add up everyone who earns money, after taxes.",
+  "f.sales": "Sales in a typical month", "f.sales.h": "All the money customers pay the business in a month.",
+  "f.steady": "How steady is this income?", "f.steady.biz": "How steady are sales?",
+  "o.steady": "Steady paycheck", "o.some": "Changes a little", "o.lots": "Changes a lot (tips, gig work, seasonal)",
+  "o.steadyB": "About the same every month", "o.someB": "Up and down a little", "o.lotsB": "Big swings or busy seasons",
+  "f.earners": "How many people in the household earn money?", "o.e1": "1 person", "o.e2": "2 people", "o.e3": "3 or more",
+  "f.bizType": "What kind of business?", "o.food": "Restaurant or food", "o.retail": "Store or market", "o.service": "Salon, cleaning or other service", "o.trades": "Construction, repair or trucking", "o.other": "Something else",
+  "f.living.me": "Living costs per month", "f.living.family": "Household living costs per month", "f.living.h": "Rent, food, utilities, transportation, phone and insurance.",
+  "f.cogs": "Supplies and inventory (% of sales)", "f.cogs.h": "We filled in a typical number for this kind of business. Change it if you know yours.",
+  "f.fixed": "Rent, wages and other business bills per month",
+  "f.draw": "Money the family takes home from the business per month",
+  "f.remit": "Money sent to family in another country per month", "f.remit.h": "Leave at 0 if this doesn't apply to you.",
+  "f.debtKind": "What kind of debt is it?", "o.card": "Credit card", "o.personal": "Personal loan", "o.car": "Car loan", "o.informal": "Loan from family or friends", "o.bank": "Bank, credit union or SBA loan", "o.online": "Online or fast-cash lender",
+  "f.owed": "How much do you still owe?", "f.loan": "How much do you still owe on the loan?",
+  "f.apr": "Interest rate (% per year)", "f.apr.h": "We filled in a typical rate for this kind of debt. Check your statement for your real rate.",
+  "f.payment": "Monthly payment", "f.payment.h": "What you pay on this debt each month.",
+  "f.years": "Years left to pay it back",
+  "f.savings": "Savings you could use in an emergency", "f.cash": "Business cash on hand",
+  "ld.of": "of {n} futures played out", "ld.1": "Drawing random months…", "ld.2": "Adding bad months…", "ld.3": "Making payments, month by month…", "ld.4": "Counting the futures that stayed on track…",
+  "r.eyebrow": "Your results", "r.title": "Your chance of falling behind on payments", "r.edit": "Change my answers",
+  "band.low": "Looking good", "band.mid": "Tight", "band.high": "High risk",
+  "r.freq": "In {k} out of 100 possible futures, the money runs out before the debt is paid off.",
+  "r.freq0": "In fewer than 1 out of 100 possible futures does the money run out before the debt is paid off.",
+  "r.when": "When it happens, it's usually around month {m}.",
+  "r.ok": "Stays on track", "r.behind": "Falls behind", "r.dotNote": "Each dot is 1 of 100 possible futures.",
+  "r.listen": "Listen", "r.stop": "Stop", "r.copy": "Copy my plan", "r.copied": "Copied", "r.save": "Save my plan",
+  "r.rerun": "Run again with new random futures", "r.restart": "Start over",
+  "r.disclaimer": "This is an educational estimate based on the numbers you entered, not financial advice. Real life can differ.",
+  "k.pay": "Monthly debt payment", "k.cushion": "Emergency cushion", "k.months": "{m} months", "k.share": "Income going to debt", "k.dscr": "Debt coverage", "k.payoff": "Debt paid off in", "k.never": "Never at this payment", "k.interest": "Total interest you'll pay", "k.left": "Left over in a typical month",
+  "g.t": "What you're doing well", "pl.t": "Your plan", "pl.sub": "Most helpful steps first.", "pl.impact": "Lowers your risk from {a}% to {b}%", "pl.saves": "Saves about {s} in interest",
+  "G.cushion": "You have about {m} months of bills saved. Experts suggest at least 3.",
+  "G.dti": "Only {p}% of your income goes to debt payments. Under 15% is comfortable.",
+  "G.dscr": "Your business earns {d}× what it needs for loan payments. Banks look for at least 1.25×.",
+  "G.surplus": "You have about {x} left over in a typical month.",
+  "G.rate": "Your interest rate of {r}% is low.",
+  "G.free": "Your loan from family or friends doesn't charge interest.",
+  "G.steady": "Your income is steady, which makes planning easier.",
+  "G.earners": "More than one person earns money, so one lost job won't stop all income.",
+  "G.remit": "You're supporting family abroad and still keeping up with payments.",
+  "G.low": "Your risk of falling behind is low.",
+  "G.checked": "You checked your risk before it became a crisis. That's the most important step.",
+  "A.never.t": "Your payment doesn't cover the interest", "A.never.b": "At {p} a month, this debt keeps growing. Call your lender and ask about a hardship plan, or talk to a free nonprofit credit counselor.",
+  "A.fast.t": "Avoid fast-cash and payday loans", "A.fast.b": "These loans often charge very high rates. If you need money quickly, ask a credit union about a small loan, or join a lending circle.",
+  "A.dscr.t": "Aim for a debt coverage of 1.25 or more", "A.dscr.b": "Yours is {d}. Banks use this number to decide on loans, so raising it opens the door to better rates later.",
+  "A.credit.t": "Build your credit history", "A.credit.b": "Paying on time builds credit. Lending circles and credit-builder loans can help if you're new to credit in the U.S.",
+  "A.keep.t": "Keep a safety buffer", "A.keep.b": "Your plan is working. Keep at least 3 months of bills in savings, and check again if your income or rent changes.",
+  "L.save.t": "Grow your emergency savings", "L.save.b": "Setting aside {x} more covers about one more month of bills if money stops coming in.",
+  "L.trim.t": "Trim monthly spending by 10%", "L.trim.b": "Cutting about {x} a month gives you more room in bad months.",
+  "L.trimB.t": "Trim business bills by 10%", "L.trimB.b": "Cutting about {x} a month from rent, wages or other bills gives the business more room in slow months.",
+  "L.remit.t": "Send a little less abroad during hard months", "L.remit.b": "Sending {x} instead of {y} for now, and catching up when things improve, protects your family here and there.",
+  "L.rate.t": "Refinance to a lower rate", "L.rate.b": "Moving from {a}% to about {b}% lowers what you pay. Credit unions and community lenders (CDFIs) often have better rates, and some accept an ITIN instead of a Social Security number.",
+  "L.term.t": "Ask for more time to repay", "L.term.b": "Stretching the loan from {a} to {b} years lowers the payment to {x} a month. You'll pay more interest overall, so this helps most when cash is tight.",
+  "L.extra.t": "Pay a little extra each month", "L.extra.b": "Paying {x} more each month clears the debt {m} months sooner.",
+  "ch.open": "See the charts", "ch.cash.t": "Your savings across all futures",
+  "ch.cash.p": "The dark line is the typical future. The shaded bands show where most futures land. Below the dashed line means savings ran out.",
+  "ch.surv.t": "Futures still on track", "ch.surv.p": "Starts at 100% and drops each time another future falls behind.",
+  "ch.median": "Typical future", "ch.mid": "Middle half", "ch.wide": "Most futures", "ch.zero": "Savings run out", "ch.now": "now", "ch.yr": "yr {n}", "ch.mo": "mo {n}", "ch.end": "{p}% on track at the end",
+  "rs.t": "Free and low-cost help", "rs.note": "These organizations are independent of this tool. Many offer help in several languages.",
+  "rs.cfpb": "Plain-language money guides in many languages from the U.S. government.",
+  "rs.nfcc": "Free or low-cost nonprofit credit counseling and debt plans.",
+  "rs.maf": "Zero-interest lending circles that help build credit.",
+  "rs.score": "Free one-on-one mentoring for small business owners.",
+  "rs.sbdc": "Free business advising, including help applying for loans.",
+  "rs.sba": "Small loans for businesses through community lenders.",
+  "rs.cu": "Find a credit union near you, often with lower loan rates.",
+  "sv.eyebrow": "A favor from a high school researcher",
+  "sv.h": "Can you help my research with 3 quick taps?",
+  "sv.intro": "I'm Aiden, a high school student studying how immigrant families handle debt. Your answers help me understand who this tool reaches. It takes about 15 seconds.",
+  "sv.fine": "Private: no name or email, and results are only shared as totals. We save your answers, which option you picked, your language and your risk level, never your numbers. By answering, you agree to take part in a student research project. For adults 18 and older. You can skip any question.",
+  "sv.step": "Question {n} of {t}", "sv.first": "about 15 seconds", "sv.last": "last one", "sv.left": "{n} taps left",
+  "sv.back": "← Back", "sv.skip": "Skip", "sv.skipEnd": "Skip and finish",
+  "sv.thanksN": "Thank you! You're one of {n} people who've helped.", "sv.thanksB": "If you know a family who could use this, sharing it with them is the most helpful next step.", "sv.edit": "Change my answers",
+  "sv.doneH": "You helped a student research project.",
+  "q1.biz": "Is the business immigrant-owned?", "q1.p": "Is yours an immigrant family?",
+  "q1.yes1": "Yes, the owner immigrated", "q1.yes1p": "Yes, I immigrated", "q1.yes2": "Yes, owned by children of immigrants", "q1.yes2p": "Yes, my parents immigrated", "q1.no": "No", "pn": "Prefer not to say",
+  "q2": "Where is your family originally from?",
+  "rg.latam": "Latin America or the Caribbean", "rg.easia": "East Asia", "rg.seasia": "Southeast Asia", "rg.sasia": "South Asia", "rg.mena": "Middle East or North Africa", "rg.africa": "Sub-Saharan Africa", "rg.europe": "Europe", "rg.usca": "United States or Canada", "rg.other": "Somewhere else",
+  "q3": "Last year, about how much did your household earn in total?",
+  "inc.1": "Under $35,000", "inc.2": "$35,000 – $60,000", "inc.3": "$60,000 – $100,000", "inc.4": "$100,000 – $150,000", "inc.5": "Over $150,000",
+  "plan.head": "My debt plan from Ten Thousand Futures", "plan.good": "What I'm doing well", "plan.steps": "My next steps",
+  "r.titleND": "Your chance of running out of money",
+  "r.freqND": "In {k} out of 100 possible futures, savings run out within the next {m} months.",
+  "r.freq0ND": "In fewer than 1 out of 100 possible futures do savings run out within the next {m} months.",
+  "r.freqNever": "At {p} a month, this debt never gets paid off. In {k} out of 100 possible futures, savings also run out within {m} months.",
+  "band.never": "Debt growing",
+  "A.help.t": "Talk to a free counselor soon",
+  "A.help.b": "With these numbers, the money runs out in many futures. A nonprofit credit counselor can help you look at options for free before a payment is missed.",
+  "A.helpB.b": "With these numbers, the business runs short in many futures. A free small-business advisor, like SCORE or a Small Business Development Center, can help you look at options before a payment is missed.",
+  "sv.next": "Next person? Start a new check",
+  "m.title": "How this was calculated",
+  "m.runs": "We played out 10,000 possible futures, one month at a time, over the next {m} months.",
+  "m.swing": "In a typical month, income lands about {s}% above or below normal, and good or bad months tend to come in runs.",
+  "m.swingB": "In a typical month, sales land about {s}% above or below normal, and good or bad months tend to come in runs.",
+  "m.bad": "About once every {y} years, a hard stretch like a lost job or an illness cuts income by {c}% for {l} months.",
+  "m.badB": "About once every {y} years, a slow stretch like road work, an illness or a lost supplier cuts sales by {c}% for {l} months.",
+  "m.miss": "A future counts as falling behind the first month savings drop below zero.",
+  "m.limits": "The model leaves out help from relatives, new loans and changes you'd make along the way. Treat it as a warning light, not a prediction.",
+  "sv.thanks1": "Thank you! You're the first person to help this research.",
+  "G.lowND": "Your risk of running out of money is low.",
+  "G.remitND": "You're supporting family abroad and still staying on track."
+},
+es: {
+  skip: "Saltar al contenido", langLabel: "Idioma", bigText: "Letra más grande",
+  "h.eyebrow": "Revisión de deudas gratis", "h.title": "¿Estará bien su deuda, incluso en un mal año?",
+  "h.sub": "Responda unas preguntas. Simulamos diez mil futuros posibles para su dinero y le mostramos la probabilidad de atrasarse, lo que está haciendo bien y un plan con los próximos pasos.",
+  "h.pick": "¿Para quién es?", start: "Empezar →",
+  "p.me": "Solo yo", "p.me.d": "Mis propios ingresos, gastos y deudas",
+  "p.family": "Mi familia", "p.family.d": "El presupuesto del hogar, con una o más personas que ganan dinero",
+  "p.biz": "Nuestro negocio", "p.biz.d": "Un negocio pequeño o familiar con un préstamo",
+  "h.time": "Unos 2 minutos", "h.private": "Sus números se quedan en su dispositivo", "h.noid": "Sin preguntas de nombre, identificación ni estatus migratorio",
+  "t.label": "Hasta ahora", "t.runs": "revisiones hechas", "t.people": "personas", "t.answers": "ayudaron a la investigación",
+  "how.t": "Cómo funciona",
+  "how.1": "Díganos cuánto dinero entra, cuánto sale y cuánto debe.",
+  "how.2": "Simulamos diez mil futuros posibles, incluidos meses malos como perder el trabajo, una enfermedad o una temporada lenta.",
+  "how.3": "Verá cuántos futuros salen bien y recibirá un plan para mejorar sus probabilidades.",
+  "why.t": "Por qué existe",
+  "why.b": "Muchas familias inmigrantes sostienen hogares y negocios con poco margen, apoyan a parientes en otros países y piden préstamos a prestamistas que no entienden esas presiones. Un estudiante de preparatoria creó esta herramienta para que las familias vean su riesgo con claridad y planeen con tiempo.",
+  "w.step": "Paso {n} de {t}", "w.next": "Siguiente", "w.run": "Ver mis resultados", "w.back": "← Atrás", "w.backHome": "← Cambiar para quién es", "w.example": "Usar números de ejemplo",
+  "w.s1": "Dinero que entra", "w.s2": "Dinero que sale", "w.s3": "Deudas y ahorros",
+  "w.warnPay": "Escriba un pago mensual para poder revisar su deuda.",
+  "f.income.me": "Ingreso neto al mes", "f.income.me.h": "Después de impuestos. Incluya todos sus trabajos.",
+  "f.income.family": "Ingreso neto del hogar al mes", "f.income.family.h": "Sume a todas las personas que ganan dinero, después de impuestos.",
+  "f.sales": "Ventas en un mes normal", "f.sales.h": "Todo el dinero que los clientes le pagan al negocio en un mes.",
+  "f.steady": "¿Qué tan estable es ese ingreso?", "f.steady.biz": "¿Qué tan estables son las ventas?",
+  "o.steady": "Sueldo fijo", "o.some": "Cambia un poco", "o.lots": "Cambia mucho (propinas, trabajos por app, temporada)",
+  "o.steadyB": "Casi igual cada mes", "o.someB": "Sube y baja un poco", "o.lotsB": "Cambios grandes o temporadas fuertes",
+  "f.earners": "¿Cuántas personas del hogar ganan dinero?", "o.e1": "1 persona", "o.e2": "2 personas", "o.e3": "3 o más",
+  "f.bizType": "¿Qué tipo de negocio es?", "o.food": "Restaurante o comida", "o.retail": "Tienda o mercado", "o.service": "Salón, limpieza u otro servicio", "o.trades": "Construcción, reparación o transporte", "o.other": "Otro",
+  "f.living.me": "Gastos de vida al mes", "f.living.family": "Gastos del hogar al mes", "f.living.h": "Renta, comida, servicios, transporte, teléfono y seguros.",
+  "f.cogs": "Mercancía e insumos (% de las ventas)", "f.cogs.h": "Pusimos un número típico para este tipo de negocio. Cámbielo si conoce el suyo.",
+  "f.fixed": "Renta, sueldos y otras cuentas del negocio al mes",
+  "f.draw": "Dinero que la familia saca del negocio al mes",
+  "f.remit": "Dinero enviado a familiares en otro país al mes", "f.remit.h": "Déjelo en 0 si no aplica.",
+  "f.debtKind": "¿Qué tipo de deuda es?", "o.card": "Tarjeta de crédito", "o.personal": "Préstamo personal", "o.car": "Préstamo de auto", "o.informal": "Préstamo de familia o amigos", "o.bank": "Banco, cooperativa de crédito o SBA", "o.online": "Prestamista en línea o de dinero rápido",
+  "f.owed": "¿Cuánto debe todavía?", "f.loan": "¿Cuánto debe todavía del préstamo?",
+  "f.apr": "Tasa de interés (% al año)", "f.apr.h": "Pusimos una tasa típica para este tipo de deuda. Revise su estado de cuenta para ver la suya.",
+  "f.payment": "Pago mensual", "f.payment.h": "Lo que paga de esta deuda cada mes.",
+  "f.years": "Años que faltan para pagarlo",
+  "f.savings": "Ahorros que podría usar en una emergencia", "f.cash": "Efectivo del negocio",
+  "ld.of": "de {n} futuros simulados", "ld.1": "Sorteando meses al azar…", "ld.2": "Agregando meses malos…", "ld.3": "Haciendo los pagos, mes por mes…", "ld.4": "Contando los futuros que salieron bien…",
+  "r.eyebrow": "Sus resultados", "r.title": "Su probabilidad de atrasarse en los pagos", "r.edit": "Cambiar mis respuestas",
+  "band.low": "Va bien", "band.mid": "Ajustado", "band.high": "Riesgo alto",
+  "r.freq": "En {k} de cada 100 futuros posibles, el dinero se acaba antes de pagar la deuda.",
+  "r.freq0": "En menos de 1 de cada 100 futuros posibles se acaba el dinero antes de pagar la deuda.",
+  "r.when": "Cuando pasa, suele ser cerca del mes {m}.",
+  "r.ok": "Sale bien", "r.behind": "Se atrasa", "r.dotNote": "Cada punto es 1 de 100 futuros posibles.",
+  "r.listen": "Escuchar", "r.stop": "Detener", "r.copy": "Copiar mi plan", "r.copied": "Copiado", "r.save": "Guardar mi plan",
+  "r.rerun": "Simular otra vez con futuros nuevos", "r.restart": "Empezar de nuevo",
+  "r.disclaimer": "Esto es un cálculo educativo basado en los números que escribió, no es asesoría financiera. La vida real puede ser distinta.",
+  "k.pay": "Pago mensual de la deuda", "k.cushion": "Colchón para emergencias", "k.months": "{m} meses", "k.share": "Ingreso que va a deudas", "k.dscr": "Cobertura de la deuda", "k.payoff": "Deuda pagada en", "k.never": "Nunca con este pago", "k.interest": "Intereses totales que pagará", "k.left": "Lo que sobra en un mes normal",
+  "g.t": "Lo que está haciendo bien", "pl.t": "Su plan", "pl.sub": "Primero los pasos que más ayudan.", "pl.impact": "Baja su riesgo de {a}% a {b}%", "pl.saves": "Ahorra unos {s} en intereses",
+  "G.cushion": "Tiene ahorrados unos {m} meses de gastos. Se recomienda tener al menos 3.",
+  "G.dti": "Solo el {p}% de su ingreso va a pagos de deudas. Menos del 15% es cómodo.",
+  "G.dscr": "Su negocio gana {d}× lo que necesita para los pagos del préstamo. Los bancos buscan al menos 1.25×.",
+  "G.surplus": "Le sobran unos {x} en un mes normal.",
+  "G.rate": "Su tasa de interés de {r}% es baja.",
+  "G.free": "Su préstamo de familia o amigos no cobra intereses.",
+  "G.steady": "Su ingreso es estable, y eso facilita planear.",
+  "G.earners": "Más de una persona gana dinero, así que perder un trabajo no detiene todo el ingreso.",
+  "G.remit": "Está apoyando a su familia en otro país y aun así cumple con sus pagos.",
+  "G.low": "Su riesgo de atrasarse es bajo.",
+  "G.checked": "Revisó su riesgo antes de que se volviera una crisis. Ese es el paso más importante.",
+  "A.never.t": "Su pago no cubre los intereses", "A.never.b": "Con {p} al mes, esta deuda sigue creciendo. Llame a su prestamista y pregunte por un plan de dificultades, o hable con un consejero de crédito sin fines de lucro, gratis.",
+  "A.fast.t": "Evite los préstamos de dinero rápido y día de pago", "A.fast.b": "Estos préstamos suelen cobrar tasas muy altas. Si necesita dinero rápido, pregunte en una cooperativa de crédito por un préstamo pequeño o únase a un círculo de préstamo.",
+  "A.dscr.t": "Busque una cobertura de deuda de 1.25 o más", "A.dscr.b": "La suya es {d}. Los bancos usan este número para aprobar préstamos, así que subirlo le abre mejores tasas después.",
+  "A.credit.t": "Construya su historial de crédito", "A.credit.b": "Pagar a tiempo construye crédito. Los círculos de préstamo y los préstamos para construir crédito ayudan si es nuevo con el crédito en EE. UU.",
+  "A.keep.t": "Mantenga un colchón de seguridad", "A.keep.b": "Su plan está funcionando. Guarde al menos 3 meses de gastos y vuelva a revisar si cambia su ingreso o su renta.",
+  "L.save.t": "Aumente sus ahorros de emergencia", "L.save.b": "Guardar {x} más cubre cerca de un mes más de gastos si deja de entrar dinero.",
+  "L.trim.t": "Reduzca sus gastos mensuales un 10%", "L.trim.b": "Recortar unos {x} al mes le da más espacio en los meses malos.",
+  "L.trimB.t": "Reduzca las cuentas del negocio un 10%", "L.trimB.b": "Recortar unos {x} al mes en renta, sueldos u otras cuentas le da al negocio más espacio en los meses lentos.",
+  "L.remit.t": "Envíe un poco menos al extranjero en los meses difíciles", "L.remit.b": "Enviar {x} en lugar de {y} por ahora, y ponerse al día cuando mejore la situación, protege a su familia aquí y allá.",
+  "L.rate.t": "Refinancie a una tasa más baja", "L.rate.b": "Pasar de {a}% a cerca de {b}% baja lo que paga. Las cooperativas de crédito y los prestamistas comunitarios (CDFI) suelen tener mejores tasas, y algunos aceptan un ITIN en lugar del número de Seguro Social.",
+  "L.term.t": "Pida más tiempo para pagar", "L.term.b": "Alargar el préstamo de {a} a {b} años baja el pago a {x} al mes. Pagará más intereses en total, así que sirve más cuando falta efectivo.",
+  "L.extra.t": "Pague un poco más cada mes", "L.extra.b": "Pagar {x} más al mes liquida la deuda {m} meses antes.",
+  "ch.open": "Ver las gráficas", "ch.cash.t": "Sus ahorros en todos los futuros",
+  "ch.cash.p": "La línea oscura es el futuro típico. Las bandas muestran dónde caen la mayoría de los futuros. Debajo de la línea punteada, los ahorros se acabaron.",
+  "ch.surv.t": "Futuros que siguen bien", "ch.surv.p": "Empieza en 100% y baja cada vez que otro futuro se atrasa.",
+  "ch.median": "Futuro típico", "ch.mid": "Mitad del centro", "ch.wide": "La mayoría", "ch.zero": "Se acaban los ahorros", "ch.now": "hoy", "ch.yr": "año {n}", "ch.mo": "mes {n}", "ch.end": "{p}% bien al final",
+  "rs.t": "Ayuda gratis o de bajo costo", "rs.note": "Estas organizaciones no dependen de esta herramienta. Muchas ofrecen ayuda en varios idiomas.",
+  "rs.cfpb": "Guías de dinero en lenguaje sencillo y en muchos idiomas, del gobierno de EE. UU.",
+  "rs.nfcc": "Asesoría de crédito y planes de deuda sin fines de lucro, gratis o de bajo costo.",
+  "rs.maf": "Círculos de préstamo sin intereses que ayudan a construir crédito.",
+  "rs.score": "Mentoría gratis y personal para dueños de pequeños negocios.",
+  "rs.sbdc": "Asesoría gratis para negocios, incluida ayuda para solicitar préstamos.",
+  "rs.sba": "Préstamos pequeños para negocios a través de prestamistas comunitarios.",
+  "rs.cu": "Encuentre una cooperativa de crédito cerca, a menudo con tasas más bajas.",
+  "sv.eyebrow": "Un favor de un investigador de preparatoria",
+  "sv.h": "¿Me ayuda con mi investigación con 3 toques rápidos?",
+  "sv.intro": "Soy Aiden, un estudiante de preparatoria que investiga cómo manejan las deudas las familias inmigrantes. Sus respuestas me ayudan a entender a quién llega esta herramienta. Toma unos 15 segundos.",
+  "sv.fine": "Privado: no pedimos nombre ni correo, y los resultados solo se comparten como totales. Guardamos sus respuestas, la opción que eligió, su idioma y su nivel de riesgo, nunca sus números. Al responder, acepta participar en un proyecto de investigación estudiantil. Solo para mayores de 18 años. Puede saltar cualquier pregunta.",
+  "sv.step": "Pregunta {n} de {t}", "sv.first": "unos 15 segundos", "sv.last": "la última", "sv.left": "faltan {n}",
+  "sv.back": "← Atrás", "sv.skip": "Saltar", "sv.skipEnd": "Saltar y terminar",
+  "sv.thanksN": "¡Gracias! Usted es una de las {n} personas que han ayudado.", "sv.thanksB": "Si conoce a una familia a la que le sirva esto, compartírselo es lo que más ayuda.", "sv.edit": "Cambiar mis respuestas",
+  "sv.doneH": "Ayudó a un proyecto de investigación estudiantil.",
+  "q1.biz": "¿El negocio es de dueños inmigrantes?", "q1.p": "¿Su familia es inmigrante?",
+  "q1.yes1": "Sí, el dueño inmigró", "q1.yes1p": "Sí, yo inmigré", "q1.yes2": "Sí, es de hijos de inmigrantes", "q1.yes2p": "Sí, mis padres inmigraron", "q1.no": "No", "pn": "Prefiero no decir",
+  "q2": "¿De dónde es originalmente su familia?",
+  "rg.latam": "América Latina o el Caribe", "rg.easia": "Asia oriental", "rg.seasia": "Sudeste asiático", "rg.sasia": "Asia del sur", "rg.mena": "Medio Oriente o norte de África", "rg.africa": "África subsahariana", "rg.europe": "Europa", "rg.usca": "Estados Unidos o Canadá", "rg.other": "Otro lugar",
+  "q3": "El año pasado, ¿cuánto ganó su hogar en total, más o menos?",
+  "inc.1": "Menos de $35,000", "inc.2": "$35,000 – $60,000", "inc.3": "$60,000 – $100,000", "inc.4": "$100,000 – $150,000", "inc.5": "Más de $150,000",
+  "plan.head": "Mi plan de deudas de Ten Thousand Futures", "plan.good": "Lo que hago bien", "plan.steps": "Mis próximos pasos",
+  "r.titleND": "Su probabilidad de quedarse sin dinero",
+  "r.freqND": "En {k} de cada 100 futuros posibles, los ahorros se acaban en los próximos {m} meses.",
+  "r.freq0ND": "En menos de 1 de cada 100 futuros posibles se acaban los ahorros en los próximos {m} meses.",
+  "r.freqNever": "Con {p} al mes, esta deuda nunca se termina de pagar. Además, en {k} de cada 100 futuros posibles los ahorros se acaban dentro de {m} meses.",
+  "band.never": "Deuda en aumento",
+  "A.help.t": "Hable pronto con un consejero gratuito",
+  "A.help.b": "Con estos números, el dinero se acaba en muchos futuros. Un consejero de crédito sin fines de lucro puede ayudarle gratis a ver sus opciones antes de que se atrase en un pago.",
+  "A.helpB.b": "Con estos números, al negocio le falta dinero en muchos futuros. Un asesor gratuito para pequeños negocios, como SCORE o un Centro de Desarrollo de Pequeños Negocios (SBDC), puede ayudarle a ver sus opciones antes de que se atrase en un pago.",
+  "sv.next": "¿Sigue otra persona? Empezar una nueva revisión",
+  "m.title": "Cómo se calculó",
+  "m.runs": "Simulamos 10,000 futuros posibles, mes por mes, durante los próximos {m} meses.",
+  "m.swing": "En un mes típico, el ingreso queda cerca de un {s}% por encima o por debajo de lo normal, y los meses buenos o malos suelen venir seguidos.",
+  "m.swingB": "En un mes típico, las ventas quedan cerca de un {s}% por encima o por debajo de lo normal, y los meses buenos o malos suelen venir seguidos.",
+  "m.bad": "Más o menos una vez cada {y} años, una racha difícil, como perder el trabajo o una enfermedad, baja el ingreso un {c}% durante {l} meses.",
+  "m.badB": "Más o menos una vez cada {y} años, una racha lenta, como obras en la calle, una enfermedad o perder un proveedor, baja las ventas un {c}% durante {l} meses.",
+  "m.miss": "Un futuro cuenta como atrasado el primer mes en que los ahorros bajan de cero.",
+  "m.limits": "El modelo no incluye la ayuda de familiares, préstamos nuevos ni los cambios que usted haría en el camino. Úselo como una luz de alerta, no como una predicción.",
+  "sv.thanks1": "¡Gracias! Usted es la primera persona en ayudar a esta investigación.",
+  "G.lowND": "Su riesgo de quedarse sin dinero es bajo.",
+  "G.remitND": "Está apoyando a su familia en otro país y aun así va por buen camino."
+},
+zh: {
+  skip: "跳到主要内容", langLabel: "语言", bigText: "放大字体",
+  "h.eyebrow": "免费债务检查", "h.title": "即使遇到艰难的一年，您的债务也能撑住吗？",
+  "h.sub": "回答几个问题。我们为您的资金模拟一万种可能的未来，告诉您拖欠还款的可能性、您做得好的地方，以及下一步的计划。",
+  "h.pick": "这是为谁计算的？", start: "开始 →",
+  "p.me": "只有我", "p.me.d": "我自己的收入、开支和债务",
+  "p.family": "我的家庭", "p.family.d": "家庭预算，有一位或多位挣钱的人",
+  "p.biz": "我们的生意", "p.biz.d": "有贷款的小生意或家庭生意",
+  "h.time": "大约 2 分钟", "h.private": "您的数字只保存在您的设备上", "h.noid": "不问姓名、证件或移民身份",
+  "t.label": "目前", "t.runs": "次检查", "t.people": "人使用", "t.answers": "人帮助了研究",
+  "how.t": "如何运作",
+  "how.1": "告诉我们收入多少、支出多少，以及欠了多少钱。",
+  "how.2": "我们模拟一万种可能的未来，包括失业、生病或淡季等困难月份。",
+  "how.3": "您会看到有多少种未来能按时还款，并得到一个提高胜算的计划。",
+  "why.t": "为什么做这个工具",
+  "why.b": "许多移民家庭靠微薄的利润维持家庭和生意，还要支援海外亲人，借钱时面对的贷款方往往不了解这些压力。一名高中生做了这个工具，帮助家庭看清风险、提前规划。",
+  "w.step": "第 {n} 步，共 {t} 步", "w.next": "下一步", "w.run": "查看我的结果", "w.back": "← 返回", "w.backHome": "← 重新选择对象", "w.example": "使用示例数字",
+  "w.s1": "收入", "w.s2": "支出", "w.s3": "债务和储蓄",
+  "w.warnPay": "请输入每月还款额，以便我们检查您的债务。",
+  "f.income.me": "每月到手收入", "f.income.me.h": "税后金额。包括所有工作。",
+  "f.income.family": "家庭每月到手收入", "f.income.family.h": "把所有挣钱的家人加在一起，按税后计算。",
+  "f.sales": "普通一个月的营业额", "f.sales.h": "一个月内顾客付给生意的全部钱。",
+  "f.steady": "这份收入稳定吗？", "f.steady.biz": "营业额稳定吗？",
+  "o.steady": "固定工资", "o.some": "有一点变化", "o.lots": "变化很大（小费、零工、季节性）",
+  "o.steadyB": "每个月差不多", "o.someB": "有一些起伏", "o.lotsB": "起伏很大或有旺季淡季",
+  "f.earners": "家里有几个人挣钱？", "o.e1": "1 人", "o.e2": "2 人", "o.e3": "3 人或以上",
+  "f.bizType": "是什么样的生意？", "o.food": "餐厅或餐饮", "o.retail": "商店或超市", "o.service": "美发、清洁或其他服务", "o.trades": "建筑、维修或运输", "o.other": "其他",
+  "f.living.me": "每月生活开支", "f.living.family": "家庭每月生活开支", "f.living.h": "房租、伙食、水电、交通、电话和保险。",
+  "f.cogs": "货品和材料（占营业额的 %）", "f.cogs.h": "我们填了这类生意的常见数字。如果您知道自己的数字，请修改。",
+  "f.fixed": "每月房租、工资和其他生意账单",
+  "f.draw": "家里每月从生意拿回家的钱",
+  "f.remit": "每月寄给国外家人的钱", "f.remit.h": "如不适用，请填 0。",
+  "f.debtKind": "是哪种债务？", "o.card": "信用卡", "o.personal": "个人贷款", "o.car": "车贷", "o.informal": "向亲友借的钱", "o.bank": "银行、信用合作社或 SBA 贷款", "o.online": "网上或快速现金贷款",
+  "f.owed": "您还欠多少？", "f.loan": "这笔贷款还欠多少？",
+  "f.apr": "年利率（%）", "f.apr.h": "我们填了这类债务的常见利率。请查看您的账单确认实际利率。",
+  "f.payment": "每月还款", "f.payment.h": "您每个月为这笔债务付的钱。",
+  "f.years": "还剩几年还清",
+  "f.savings": "紧急时可以动用的储蓄", "f.cash": "生意手头的现金",
+  "ld.of": "已模拟，共 {n} 种未来", "ld.1": "随机生成每个月…", "ld.2": "加入困难月份…", "ld.3": "按月还款中…", "ld.4": "统计按时还款的未来…",
+  "r.eyebrow": "您的结果", "r.title": "您拖欠还款的可能性", "r.edit": "修改我的回答",
+  "band.low": "情况良好", "band.mid": "比较紧张", "band.high": "风险高",
+  "r.freq": "在 100 种可能的未来中，有 {k} 种会在还清债务前用完钱。",
+  "r.freq0": "在 100 种可能的未来中，不到 1 种会在还清债务前用完钱。",
+  "r.when": "发生时，通常在第 {m} 个月左右。",
+  "r.ok": "按时还款", "r.behind": "拖欠", "r.dotNote": "每个点代表 100 种可能未来中的 1 种。",
+  "r.listen": "朗读", "r.stop": "停止", "r.copy": "复制我的计划", "r.copied": "已复制", "r.save": "保存我的计划",
+  "r.rerun": "用新的随机未来再算一次", "r.restart": "重新开始",
+  "r.disclaimer": "这是根据您输入的数字做的教育性估算，不是理财建议。实际情况可能不同。",
+  "k.pay": "每月还款", "k.cushion": "应急储备", "k.months": "{m} 个月", "k.share": "收入用于还债的比例", "k.dscr": "偿债覆盖率", "k.payoff": "还清时间", "k.never": "按目前还款永远还不清", "k.interest": "总共要付的利息", "k.left": "普通一个月的结余",
+  "g.t": "您做得好的地方", "pl.t": "您的计划", "pl.sub": "最有帮助的步骤排在前面。", "pl.impact": "把风险从 {a}% 降到 {b}%", "pl.saves": "节省约 {s} 利息",
+  "G.cushion": "您存了大约 {m} 个月的开支。专家建议至少 3 个月。",
+  "G.dti": "只有 {p}% 的收入用于还债。低于 15% 比较轻松。",
+  "G.dscr": "您的生意收入是还款所需的 {d} 倍。银行通常要求至少 1.25 倍。",
+  "G.surplus": "普通一个月您大约能剩下 {x}。",
+  "G.rate": "您 {r}% 的利率很低。",
+  "G.free": "您向亲友借的钱不收利息。",
+  "G.steady": "您的收入稳定，规划起来更容易。",
+  "G.earners": "家里不止一个人挣钱，一个人失业不会让收入全部中断。",
+  "G.remit": "您在支援海外家人的同时，仍然按时还款。",
+  "G.low": "您拖欠还款的风险很低。",
+  "G.checked": "您在问题变成危机之前就检查了风险，这是最重要的一步。",
+  "A.never.t": "您的还款不够付利息", "A.never.b": "每月还 {p}，这笔债务会越滚越大。请打电话给贷款方询问困难还款计划，或找免费的非营利信用咨询师。",
+  "A.fast.t": "避免快速现金贷和发薪日贷款", "A.fast.b": "这类贷款利率通常很高。如果急需用钱，可以向信用合作社申请小额贷款，或参加互助借贷圈。",
+  "A.dscr.t": "把偿债覆盖率提高到 1.25 以上", "A.dscr.b": "您的是 {d}。银行用这个数字决定是否放贷，提高它以后更容易拿到好利率。",
+  "A.credit.t": "建立信用记录", "A.credit.b": "按时还款能建立信用。如果您在美国刚开始用信用，互助借贷圈和信用建立贷款会有帮助。",
+  "A.keep.t": "保留安全储备", "A.keep.b": "您的计划很有效。请保留至少 3 个月的开支作为储蓄，收入或房租变化时再检查一次。",
+  "L.save.t": "增加应急储蓄", "L.save.b": "多存 {x}，如果收入中断，大约可以多撑一个月。",
+  "L.trim.t": "每月开支减少 10%", "L.trim.b": "每月省下约 {x}，困难月份会更有余地。",
+  "L.trimB.t": "生意账单减少 10%", "L.trimB.b": "每月在房租、工资或其他账单上省下约 {x}，淡季时生意会更有余地。",
+  "L.remit.t": "困难月份少寄一点回国", "L.remit.b": "暂时寄 {x} 而不是 {y}，等情况好转再补上，可以同时保护这里和那里的家人。",
+  "L.rate.t": "转贷到更低利率", "L.rate.b": "从 {a}% 降到约 {b}% 能减少您的支出。信用合作社和社区贷款机构（CDFI）利率往往更好，有些接受 ITIN 代替社会安全号。",
+  "L.term.t": "申请延长还款期", "L.term.b": "把贷款从 {a} 年延长到 {b} 年，每月还款降到 {x}。总利息会增加，所以最适合现金紧张时。",
+  "L.extra.t": "每月多还一点", "L.extra.b": "每月多还 {x}，可提前 {m} 个月还清。",
+  "ch.open": "查看图表", "ch.cash.t": "所有未来中的储蓄",
+  "ch.cash.p": "深色线是典型的未来。阴影带表示大多数未来的范围。低于虚线表示储蓄用完了。",
+  "ch.surv.t": "仍按时还款的未来", "ch.surv.p": "从 100% 开始，每有一种未来拖欠就会下降。",
+  "ch.median": "典型未来", "ch.mid": "中间一半", "ch.wide": "大多数未来", "ch.zero": "储蓄用完", "ch.now": "现在", "ch.yr": "第 {n} 年", "ch.mo": "第 {n} 月", "ch.end": "最后 {p}% 按时还款",
+  "rs.t": "免费和低价帮助", "rs.note": "这些机构与本工具无关。很多机构提供多种语言的帮助。",
+  "rs.cfpb": "美国政府提供的多语言、通俗易懂的理财指南。",
+  "rs.nfcc": "免费或低价的非营利信用咨询和还债计划。",
+  "rs.maf": "零利息互助借贷圈，帮助建立信用。",
+  "rs.score": "为小生意主提供免费一对一辅导。",
+  "rs.sbdc": "免费商业咨询，包括帮助申请贷款。",
+  "rs.sba": "通过社区贷款机构提供的小额商业贷款。",
+  "rs.cu": "查找附近的信用合作社，贷款利率通常更低。",
+  "sv.eyebrow": "一位高中研究者的小请求",
+  "sv.h": "能花 3 次点击帮我的研究吗？",
+  "sv.intro": "我是 Aiden，一名高中生，正在研究移民家庭如何处理债务。您的回答能帮我了解这个工具帮助了哪些人。大约 15 秒。",
+  "sv.fine": "保护隐私：不问姓名或邮箱，结果只以总数呈现。我们保存您的回答、您选择的对象、语言和风险等级，从不保存您的数字。回答即表示您同意参加一项学生研究。仅限 18 岁及以上成年人。任何问题都可以跳过。",
+  "sv.step": "第 {n} 题，共 {t} 题", "sv.first": "约 15 秒", "sv.last": "最后一题", "sv.left": "还剩 {n} 题",
+  "sv.back": "← 返回", "sv.skip": "跳过", "sv.skipEnd": "跳过并完成",
+  "sv.thanksN": "谢谢！已有 {n} 人帮助了这项研究，您是其中之一。", "sv.thanksB": "如果您认识用得上的家庭，分享给他们是最有帮助的下一步。", "sv.edit": "修改我的回答",
+  "sv.doneH": "您帮助了一项学生研究。",
+  "q1.biz": "这家生意是移民开的吗？", "q1.p": "您的家庭是移民家庭吗？",
+  "q1.yes1": "是，老板是移民", "q1.yes1p": "是，我是移民", "q1.yes2": "是，老板是移民子女", "q1.yes2p": "是，我父母是移民", "q1.no": "不是", "pn": "不想说",
+  "q2": "您的家庭最初来自哪里？",
+  "rg.latam": "拉丁美洲或加勒比", "rg.easia": "东亚", "rg.seasia": "东南亚", "rg.sasia": "南亚", "rg.mena": "中东或北非", "rg.africa": "撒哈拉以南非洲", "rg.europe": "欧洲", "rg.usca": "美国或加拿大", "rg.other": "其他地方",
+  "q3": "去年您家庭的总收入大约是多少？",
+  "inc.1": "低于 $35,000", "inc.2": "$35,000 – $60,000", "inc.3": "$60,000 – $100,000", "inc.4": "$100,000 – $150,000", "inc.5": "高于 $150,000",
+  "plan.head": "我的 Ten Thousand Futures 还债计划", "plan.good": "我做得好的地方", "plan.steps": "我的下一步",
+  "r.titleND": "您用完钱的可能性",
+  "r.freqND": "在 100 种可能的未来中，有 {k} 种会在未来 {m} 个月内用完储蓄。",
+  "r.freq0ND": "在 100 种可能的未来中，不到 1 种会在未来 {m} 个月内用完储蓄。",
+  "r.freqNever": "每月还 {p}，这笔债务永远还不清。另外，在 100 种可能的未来中，有 {k} 种会在 {m} 个月内用完储蓄。",
+  "band.never": "债务在增加",
+  "A.help.t": "尽快找免费顾问谈谈",
+  "A.help.b": "按这些数字，很多种未来都会用完钱。非营利信用咨询师可以免费帮您在拖欠还款之前看看有哪些选择。",
+  "A.helpB.b": "按这些数字，生意在很多种未来中都会缺钱。免费的小生意顾问（例如 SCORE 或小企业发展中心 SBDC）可以帮您在拖欠还款之前看看有哪些选择。",
+  "sv.next": "下一位？开始新的检查",
+  "m.title": "这是怎么算出来的",
+  "m.runs": "我们按月模拟了未来 {m} 个月里一万种可能的情况。",
+  "m.swing": "普通月份的收入通常比平时高或低大约 {s}%，好月份和坏月份往往会连着出现。",
+  "m.swingB": "普通月份的营业额通常比平时高或低大约 {s}%，好月份和坏月份往往会连着出现。",
+  "m.bad": "大约每 {y} 年会遇到一次困难时期，例如失业或生病，收入会减少 {c}%，持续 {l} 个月。",
+  "m.badB": "大约每 {y} 年会遇到一次淡季，例如修路、生病或失去供应商，营业额会减少 {c}%，持续 {l} 个月。",
+  "m.miss": "只要储蓄第一次低于零，这种未来就算作拖欠。",
+  "m.limits": "这个模型没有计算亲友的帮助、新的贷款，或您在过程中做出的调整。请把它当作警示灯，而不是预言。",
+  "sv.thanks1": "谢谢！您是第一位帮助这项研究的人。",
+  "G.lowND": "您用完钱的风险很低。",
+  "G.remitND": "您在支援海外家人的同时，财务仍然稳定。"
+},
+vi: {
+  skip: "Chuyển đến nội dung chính", langLabel: "Ngôn ngữ", bigText: "Chữ lớn hơn",
+  "h.eyebrow": "Kiểm tra nợ miễn phí", "h.title": "Khoản nợ của bạn có ổn không, kể cả trong một năm khó khăn?",
+  "h.sub": "Trả lời vài câu hỏi. Chúng tôi mô phỏng mười nghìn tương lai có thể xảy ra với tiền của bạn, rồi cho biết khả năng bị trễ hạn, những điều bạn đang làm tốt và kế hoạch cho bước tiếp theo.",
+  "h.pick": "Bạn tính cho ai?", start: "Bắt đầu →",
+  "p.me": "Chỉ mình tôi", "p.me.d": "Thu nhập, chi tiêu và nợ của riêng tôi",
+  "p.family": "Gia đình tôi", "p.family.d": "Ngân sách gia đình, có một hoặc nhiều người đi làm",
+  "p.biz": "Cơ sở kinh doanh của chúng tôi", "p.biz.d": "Một tiệm nhỏ hoặc doanh nghiệp gia đình có khoản vay",
+  "h.time": "Khoảng 2 phút", "h.private": "Số liệu của bạn chỉ lưu trên thiết bị của bạn", "h.noid": "Không hỏi tên, giấy tờ hay tình trạng di trú",
+  "t.label": "Đến nay", "t.runs": "lượt kiểm tra", "t.people": "người dùng", "t.answers": "người giúp nghiên cứu",
+  "how.t": "Cách hoạt động",
+  "how.1": "Cho chúng tôi biết tiền vào, tiền ra và số nợ của bạn.",
+  "how.2": "Chúng tôi mô phỏng mười nghìn tương lai, kể cả những tháng khó khăn như mất việc, ốm đau hay mùa vắng khách.",
+  "how.3": "Bạn sẽ thấy bao nhiêu tương lai vẫn trả nợ đúng hạn, và nhận một kế hoạch để cải thiện cơ hội.",
+  "why.t": "Vì sao có công cụ này",
+  "why.b": "Nhiều gia đình nhập cư lo gia đình và việc kinh doanh với lợi nhuận mỏng, gửi tiền giúp người thân ở nước ngoài, và vay từ những nơi không hiểu những áp lực đó. Một học sinh trung học đã làm công cụ này để các gia đình thấy rõ rủi ro và lên kế hoạch sớm.",
+  "w.step": "Bước {n} / {t}", "w.next": "Tiếp", "w.run": "Xem kết quả", "w.back": "← Quay lại", "w.backHome": "← Đổi đối tượng", "w.example": "Dùng số ví dụ",
+  "w.s1": "Tiền vào", "w.s2": "Tiền ra", "w.s3": "Nợ và tiền tiết kiệm",
+  "w.warnPay": "Hãy nhập số tiền trả hằng tháng để chúng tôi kiểm tra khoản nợ.",
+  "f.income.me": "Thu nhập thực nhận mỗi tháng", "f.income.me.h": "Sau thuế. Tính tất cả các việc làm.",
+  "f.income.family": "Thu nhập thực nhận của gia đình mỗi tháng", "f.income.family.h": "Cộng tất cả những người có thu nhập, sau thuế.",
+  "f.sales": "Doanh thu trong một tháng bình thường", "f.sales.h": "Tổng số tiền khách hàng trả cho cơ sở trong một tháng.",
+  "f.steady": "Thu nhập này có ổn định không?", "f.steady.biz": "Doanh thu có ổn định không?",
+  "o.steady": "Lương cố định", "o.some": "Thay đổi chút ít", "o.lots": "Thay đổi nhiều (tiền tip, việc qua ứng dụng, theo mùa)",
+  "o.steadyB": "Tháng nào cũng gần như nhau", "o.someB": "Lên xuống một chút", "o.lotsB": "Lên xuống mạnh hoặc có mùa cao điểm",
+  "f.earners": "Trong nhà có mấy người kiếm tiền?", "o.e1": "1 người", "o.e2": "2 người", "o.e3": "3 người trở lên",
+  "f.bizType": "Loại hình kinh doanh nào?", "o.food": "Nhà hàng hoặc đồ ăn", "o.retail": "Cửa hàng hoặc chợ", "o.service": "Tiệm nail, tóc, dọn dẹp hoặc dịch vụ khác", "o.trades": "Xây dựng, sửa chữa hoặc vận chuyển", "o.other": "Loại khác",
+  "f.living.me": "Chi phí sinh hoạt mỗi tháng", "f.living.family": "Chi phí sinh hoạt của gia đình mỗi tháng", "f.living.h": "Tiền nhà, ăn uống, điện nước, đi lại, điện thoại và bảo hiểm.",
+  "f.cogs": "Hàng hóa và vật liệu (% doanh thu)", "f.cogs.h": "Chúng tôi điền con số thường gặp cho loại hình này. Hãy sửa nếu bạn biết số của mình.",
+  "f.fixed": "Tiền thuê, lương và các hóa đơn khác của cơ sở mỗi tháng",
+  "f.draw": "Tiền gia đình lấy từ cơ sở về nhà mỗi tháng",
+  "f.remit": "Tiền gửi cho người thân ở nước ngoài mỗi tháng", "f.remit.h": "Để 0 nếu không áp dụng.",
+  "f.debtKind": "Đây là loại nợ gì?", "o.card": "Thẻ tín dụng", "o.personal": "Vay cá nhân", "o.car": "Vay mua xe", "o.informal": "Vay người thân hoặc bạn bè", "o.bank": "Ngân hàng, credit union hoặc khoản vay SBA", "o.online": "Vay trực tuyến hoặc vay tiền nhanh",
+  "f.owed": "Bạn còn nợ bao nhiêu?", "f.loan": "Khoản vay còn nợ bao nhiêu?",
+  "f.apr": "Lãi suất (% mỗi năm)", "f.apr.h": "Chúng tôi điền lãi suất thường gặp cho loại nợ này. Hãy xem bảng sao kê để biết lãi suất thật.",
+  "f.payment": "Số tiền trả mỗi tháng", "f.payment.h": "Số tiền bạn trả cho khoản nợ này mỗi tháng.",
+  "f.years": "Còn bao nhiêu năm để trả hết",
+  "f.savings": "Tiền tiết kiệm có thể dùng khi khẩn cấp", "f.cash": "Tiền mặt của cơ sở",
+  "ld.of": "trong {n} tương lai đã mô phỏng", "ld.1": "Tạo các tháng ngẫu nhiên…", "ld.2": "Thêm những tháng khó khăn…", "ld.3": "Trả nợ từng tháng…", "ld.4": "Đếm các tương lai trả đúng hạn…",
+  "r.eyebrow": "Kết quả của bạn", "r.title": "Khả năng bạn bị trễ hạn trả nợ", "r.edit": "Sửa câu trả lời",
+  "band.low": "Khá tốt", "band.mid": "Hơi căng", "band.high": "Rủi ro cao",
+  "r.freq": "Trong 100 tương lai có thể xảy ra, có {k} trường hợp hết tiền trước khi trả xong nợ.",
+  "r.freq0": "Trong 100 tương lai có thể xảy ra, chưa đến 1 trường hợp hết tiền trước khi trả xong nợ.",
+  "r.when": "Khi xảy ra, thường là vào khoảng tháng thứ {m}.",
+  "r.ok": "Trả đúng hạn", "r.behind": "Bị trễ", "r.dotNote": "Mỗi chấm là 1 trong 100 tương lai có thể xảy ra.",
+  "r.listen": "Nghe", "r.stop": "Dừng", "r.copy": "Sao chép kế hoạch", "r.copied": "Đã sao chép", "r.save": "Lưu kế hoạch",
+  "r.rerun": "Chạy lại với tương lai ngẫu nhiên mới", "r.restart": "Làm lại từ đầu",
+  "r.disclaimer": "Đây là ước tính mang tính giáo dục dựa trên số liệu bạn nhập, không phải tư vấn tài chính. Thực tế có thể khác.",
+  "k.pay": "Tiền trả nợ mỗi tháng", "k.cushion": "Quỹ dự phòng", "k.months": "{m} tháng", "k.share": "Phần thu nhập dùng trả nợ", "k.dscr": "Hệ số trả nợ", "k.payoff": "Trả hết nợ sau", "k.never": "Không bao giờ hết với mức trả này", "k.interest": "Tổng tiền lãi phải trả", "k.left": "Còn dư trong tháng bình thường",
+  "g.t": "Những điều bạn đang làm tốt", "pl.t": "Kế hoạch của bạn", "pl.sub": "Các bước hữu ích nhất ở trên cùng.", "pl.impact": "Giảm rủi ro từ {a}% xuống {b}%", "pl.saves": "Tiết kiệm khoảng {s} tiền lãi",
+  "G.cushion": "Bạn để dành được khoảng {m} tháng chi phí. Chuyên gia khuyên ít nhất 3 tháng.",
+  "G.dti": "Chỉ {p}% thu nhập dùng để trả nợ. Dưới 15% là thoải mái.",
+  "G.dscr": "Cơ sở của bạn kiếm được gấp {d} lần số cần để trả nợ. Ngân hàng thường muốn ít nhất 1,25 lần.",
+  "G.surplus": "Bạn còn dư khoảng {x} trong một tháng bình thường.",
+  "G.rate": "Lãi suất {r}% của bạn là thấp.",
+  "G.free": "Khoản vay từ người thân hoặc bạn bè không tính lãi.",
+  "G.steady": "Thu nhập của bạn ổn định, nên dễ lên kế hoạch hơn.",
+  "G.earners": "Có hơn một người kiếm tiền, nên một người mất việc không làm mất hết thu nhập.",
+  "G.remit": "Bạn vừa giúp đỡ gia đình ở nước ngoài vừa trả nợ đúng hạn.",
+  "G.low": "Rủi ro bị trễ hạn của bạn thấp.",
+  "G.checked": "Bạn đã kiểm tra rủi ro trước khi thành khủng hoảng. Đó là bước quan trọng nhất.",
+  "A.never.t": "Số tiền trả chưa đủ trả lãi", "A.never.b": "Với {p} mỗi tháng, khoản nợ này sẽ tiếp tục tăng. Hãy gọi cho bên cho vay hỏi về chương trình hỗ trợ khó khăn, hoặc nói chuyện với tư vấn viên tín dụng phi lợi nhuận miễn phí.",
+  "A.fast.t": "Tránh vay tiền nhanh và vay ứng lương", "A.fast.b": "Các khoản vay này thường có lãi rất cao. Nếu cần tiền gấp, hãy hỏi credit union về khoản vay nhỏ, hoặc tham gia hụi/vòng cho vay không lãi.",
+  "A.dscr.t": "Đặt mục tiêu hệ số trả nợ từ 1,25 trở lên", "A.dscr.b": "Của bạn là {d}. Ngân hàng dùng con số này để quyết định cho vay, nên nâng nó lên giúp bạn vay được lãi tốt hơn sau này.",
+  "A.credit.t": "Xây dựng lịch sử tín dụng", "A.credit.b": "Trả đúng hạn giúp xây dựng tín dụng. Vòng cho vay và khoản vay xây dựng tín dụng sẽ giúp nếu bạn mới bắt đầu dùng tín dụng ở Mỹ.",
+  "A.keep.t": "Giữ một khoản dự phòng", "A.keep.b": "Kế hoạch của bạn đang hiệu quả. Hãy để dành ít nhất 3 tháng chi phí và kiểm tra lại khi thu nhập hoặc tiền nhà thay đổi.",
+  "L.save.t": "Tăng quỹ dự phòng", "L.save.b": "Để dành thêm {x} sẽ trang trải thêm khoảng một tháng chi phí nếu mất thu nhập.",
+  "L.trim.t": "Giảm chi tiêu hằng tháng 10%", "L.trim.b": "Cắt khoảng {x} mỗi tháng giúp bạn dễ thở hơn trong những tháng khó.",
+  "L.trimB.t": "Giảm hóa đơn của cơ sở 10%", "L.trimB.b": "Cắt khoảng {x} mỗi tháng từ tiền thuê, lương hoặc hóa đơn khác giúp cơ sở có thêm chỗ thở vào mùa vắng.",
+  "L.remit.t": "Gửi về nước ít hơn một chút trong tháng khó", "L.remit.b": "Tạm gửi {x} thay vì {y}, rồi gửi bù khi mọi thứ khá hơn, sẽ bảo vệ gia đình bạn ở cả hai nơi.",
+  "L.rate.t": "Vay lại với lãi suất thấp hơn", "L.rate.b": "Giảm từ {a}% xuống khoảng {b}% sẽ giảm số tiền bạn phải trả. Credit union và các tổ chức cho vay cộng đồng (CDFI) thường có lãi tốt hơn, và một số chấp nhận ITIN thay cho số An sinh Xã hội.",
+  "L.term.t": "Xin thêm thời gian trả nợ", "L.term.b": "Kéo dài khoản vay từ {a} lên {b} năm sẽ giảm tiền trả xuống {x} mỗi tháng. Tổng tiền lãi sẽ cao hơn, nên cách này giúp nhất khi thiếu tiền mặt.",
+  "L.extra.t": "Trả thêm một chút mỗi tháng", "L.extra.b": "Trả thêm {x} mỗi tháng giúp trả hết nợ sớm hơn {m} tháng.",
+  "ch.open": "Xem biểu đồ", "ch.cash.t": "Tiền tiết kiệm trong tất cả các tương lai",
+  "ch.cash.p": "Đường đậm là tương lai điển hình. Các dải màu cho thấy phần lớn tương lai rơi vào đâu. Dưới đường đứt nét nghĩa là đã hết tiền tiết kiệm.",
+  "ch.surv.t": "Các tương lai vẫn trả đúng hạn", "ch.surv.p": "Bắt đầu ở 100% và giảm mỗi khi có thêm một tương lai bị trễ.",
+  "ch.median": "Tương lai điển hình", "ch.mid": "Một nửa ở giữa", "ch.wide": "Phần lớn tương lai", "ch.zero": "Hết tiền tiết kiệm", "ch.now": "nay", "ch.yr": "năm {n}", "ch.mo": "th {n}", "ch.end": "{p}% đúng hạn ở cuối",
+  "rs.t": "Hỗ trợ miễn phí và chi phí thấp", "rs.note": "Các tổ chức này độc lập với công cụ này. Nhiều nơi hỗ trợ bằng nhiều ngôn ngữ.",
+  "rs.cfpb": "Hướng dẫn tài chính dễ hiểu bằng nhiều ngôn ngữ của chính phủ Mỹ.",
+  "rs.nfcc": "Tư vấn tín dụng và kế hoạch trả nợ phi lợi nhuận, miễn phí hoặc chi phí thấp.",
+  "rs.maf": "Vòng cho vay không lãi giúp xây dựng tín dụng.",
+  "rs.score": "Cố vấn riêng miễn phí cho chủ doanh nghiệp nhỏ.",
+  "rs.sbdc": "Tư vấn kinh doanh miễn phí, kể cả giúp nộp đơn vay.",
+  "rs.sba": "Khoản vay nhỏ cho doanh nghiệp qua các tổ chức cho vay cộng đồng.",
+  "rs.cu": "Tìm credit union gần bạn, thường có lãi vay thấp hơn.",
+  "sv.eyebrow": "Lời nhờ từ một học sinh nghiên cứu",
+  "sv.h": "Bạn có thể giúp nghiên cứu của tôi bằng 3 lần chạm không?",
+  "sv.intro": "Tôi là Aiden, học sinh trung học đang nghiên cứu cách các gia đình nhập cư xoay xở với nợ. Câu trả lời của bạn giúp tôi biết công cụ này đến được với ai. Chỉ mất khoảng 15 giây.",
+  "sv.fine": "Riêng tư: không hỏi tên hay email, và kết quả chỉ được báo cáo dưới dạng tổng số. Chúng tôi lưu câu trả lời, lựa chọn của bạn, ngôn ngữ và mức rủi ro, không bao giờ lưu số liệu của bạn. Khi trả lời, bạn đồng ý tham gia một dự án nghiên cứu của học sinh. Chỉ dành cho người từ 18 tuổi trở lên. Có thể bỏ qua mọi câu hỏi.",
+  "sv.step": "Câu {n} / {t}", "sv.first": "khoảng 15 giây", "sv.last": "câu cuối", "sv.left": "còn {n} câu",
+  "sv.back": "← Quay lại", "sv.skip": "Bỏ qua", "sv.skipEnd": "Bỏ qua và hoàn tất",
+  "sv.thanksN": "Cảm ơn bạn! Bạn là một trong {n} người đã giúp đỡ.", "sv.thanksB": "Nếu bạn biết gia đình nào cần công cụ này, chia sẻ cho họ là việc hữu ích nhất tiếp theo.", "sv.edit": "Sửa câu trả lời",
+  "sv.doneH": "Bạn đã giúp một dự án nghiên cứu của học sinh.",
+  "q1.biz": "Cơ sở này có phải do người nhập cư làm chủ không?", "q1.p": "Gia đình bạn có phải là gia đình nhập cư không?",
+  "q1.yes1": "Có, chủ là người nhập cư", "q1.yes1p": "Có, tôi là người nhập cư", "q1.yes2": "Có, chủ là con của người nhập cư", "q1.yes2p": "Có, bố mẹ tôi là người nhập cư", "q1.no": "Không", "pn": "Không muốn trả lời",
+  "q2": "Gia đình bạn gốc ở đâu?",
+  "rg.latam": "Mỹ Latinh hoặc Caribe", "rg.easia": "Đông Á", "rg.seasia": "Đông Nam Á", "rg.sasia": "Nam Á", "rg.mena": "Trung Đông hoặc Bắc Phi", "rg.africa": "Châu Phi cận Sahara", "rg.europe": "Châu Âu", "rg.usca": "Mỹ hoặc Canada", "rg.other": "Nơi khác",
+  "q3": "Năm ngoái, tổng thu nhập của gia đình bạn khoảng bao nhiêu?",
+  "inc.1": "Dưới $35.000", "inc.2": "$35.000 – $60.000", "inc.3": "$60.000 – $100.000", "inc.4": "$100.000 – $150.000", "inc.5": "Trên $150.000",
+  "plan.head": "Kế hoạch trả nợ của tôi từ Ten Thousand Futures", "plan.good": "Điều tôi đang làm tốt", "plan.steps": "Các bước tiếp theo",
+  "r.titleND": "Khả năng bạn bị hết tiền",
+  "r.freqND": "Trong 100 tương lai có thể xảy ra, có {k} trường hợp hết tiền tiết kiệm trong {m} tháng tới.",
+  "r.freq0ND": "Trong 100 tương lai có thể xảy ra, chưa đến 1 trường hợp hết tiền tiết kiệm trong {m} tháng tới.",
+  "r.freqNever": "Với {p} mỗi tháng, khoản nợ này sẽ không bao giờ trả hết. Ngoài ra, trong 100 tương lai có thể xảy ra, có {k} trường hợp hết tiền tiết kiệm trong vòng {m} tháng.",
+  "band.never": "Nợ đang tăng",
+  "A.help.t": "Sớm nói chuyện với tư vấn viên miễn phí",
+  "A.help.b": "Với các con số này, tiền bị hết trong nhiều tương lai. Tư vấn viên tín dụng phi lợi nhuận có thể giúp bạn miễn phí xem các lựa chọn trước khi bị trễ hạn.",
+  "A.helpB.b": "Với các con số này, cơ sở bị thiếu tiền trong nhiều tương lai. Cố vấn miễn phí cho doanh nghiệp nhỏ, như SCORE hoặc Trung tâm Phát triển Doanh nghiệp Nhỏ (SBDC), có thể giúp bạn xem các lựa chọn trước khi bị trễ hạn.",
+  "sv.next": "Người tiếp theo? Bắt đầu lượt kiểm tra mới",
+  "m.title": "Cách tính kết quả này",
+  "m.runs": "Chúng tôi mô phỏng 10.000 tương lai có thể xảy ra, từng tháng một, trong {m} tháng tới.",
+  "m.swing": "Trong một tháng bình thường, thu nhập thường cao hoặc thấp hơn mức thường lệ khoảng {s}%, và các tháng tốt hay xấu thường đi liền nhau.",
+  "m.swingB": "Trong một tháng bình thường, doanh thu thường cao hoặc thấp hơn mức thường lệ khoảng {s}%, và các tháng tốt hay xấu thường đi liền nhau.",
+  "m.bad": "Khoảng {y} năm một lần, một giai đoạn khó khăn như mất việc hay ốm đau làm thu nhập giảm {c}% trong {l} tháng.",
+  "m.badB": "Khoảng {y} năm một lần, một giai đoạn vắng khách như sửa đường, ốm đau hay mất nhà cung cấp làm doanh thu giảm {c}% trong {l} tháng.",
+  "m.miss": "Một tương lai bị tính là trễ hạn vào tháng đầu tiên tiền tiết kiệm xuống dưới 0.",
+  "m.limits": "Mô hình không tính sự giúp đỡ của người thân, khoản vay mới hay những thay đổi bạn sẽ làm trên đường đi. Hãy xem đây là đèn cảnh báo, không phải lời dự đoán.",
+  "sv.thanks1": "Cảm ơn bạn! Bạn là người đầu tiên giúp nghiên cứu này.",
+  "G.lowND": "Rủi ro bạn bị hết tiền là thấp.",
+  "G.remitND": "Bạn vừa giúp đỡ gia đình ở nước ngoài vừa giữ được tài chính ổn định."
+},
+ko: {
+  skip: "본문으로 건너뛰기", langLabel: "언어", bigText: "글자 크게",
+  "h.eyebrow": "무료 부채 점검", "h.title": "힘든 한 해가 와도 빚을 감당할 수 있을까요?",
+  "h.sub": "몇 가지 질문에 답해 주세요. 돈의 흐름을 만 가지 미래로 시뮬레이션해서 상환이 밀릴 가능성, 잘하고 있는 점, 그리고 다음에 할 일을 알려 드립니다.",
+  "h.pick": "누구를 위한 계산인가요?", start: "시작 →",
+  "p.me": "나 혼자", "p.me.d": "내 소득, 지출, 빚",
+  "p.family": "우리 가족", "p.family.d": "한 명 이상이 돈을 버는 가계 예산",
+  "p.biz": "우리 가게", "p.biz.d": "대출이 있는 소규모 또는 가족 사업",
+  "h.time": "약 2분", "h.private": "입력한 숫자는 기기 안에만 남습니다", "h.noid": "이름, 신분증, 체류 신분은 묻지 않습니다",
+  "t.label": "지금까지", "t.runs": "번 점검", "t.people": "명 사용", "t.answers": "명이 연구에 참여",
+  "how.t": "작동 방식",
+  "how.1": "들어오는 돈, 나가는 돈, 갚아야 할 빚을 알려 주세요.",
+  "how.2": "실직, 질병, 비수기 같은 힘든 달을 포함해 만 가지 미래를 시뮬레이션합니다.",
+  "how.3": "몇 가지 미래에서 제때 갚는지 보여 드리고, 확률을 높일 계획을 드립니다.",
+  "why.t": "만든 이유",
+  "why.b": "많은 이민 가정이 빠듯한 수입으로 집안과 가게를 꾸리고, 해외 가족을 돕고, 그런 사정을 잘 모르는 곳에서 돈을 빌립니다. 한 고등학생이 가족들이 위험을 분명히 보고 미리 계획할 수 있도록 이 도구를 만들었습니다.",
+  "w.step": "{t}단계 중 {n}단계", "w.next": "다음", "w.run": "결과 보기", "w.back": "← 뒤로", "w.backHome": "← 대상 다시 고르기", "w.example": "예시 숫자 사용",
+  "w.s1": "들어오는 돈", "w.s2": "나가는 돈", "w.s3": "빚과 저축",
+  "w.warnPay": "빚을 점검할 수 있도록 월 상환액을 입력해 주세요.",
+  "f.income.me": "월 실수령액", "f.income.me.h": "세후 금액. 모든 일자리를 포함하세요.",
+  "f.income.family": "가구 월 실수령액", "f.income.family.h": "돈을 버는 모든 가족의 세후 금액을 더하세요.",
+  "f.sales": "보통 한 달 매출", "f.sales.h": "한 달 동안 손님이 가게에 내는 돈 전부.",
+  "f.steady": "이 소득은 얼마나 일정한가요?", "f.steady.biz": "매출은 얼마나 일정한가요?",
+  "o.steady": "고정 월급", "o.some": "조금 달라짐", "o.lots": "많이 달라짐 (팁, 앱 노동, 계절)",
+  "o.steadyB": "매달 거의 같음", "o.someB": "조금 오르내림", "o.lotsB": "변동이 크거나 성수기가 있음",
+  "f.earners": "가족 중 몇 명이 돈을 버나요?", "o.e1": "1명", "o.e2": "2명", "o.e3": "3명 이상",
+  "f.bizType": "어떤 사업인가요?", "o.food": "식당·음식", "o.retail": "가게·마트", "o.service": "미용실, 청소 등 서비스", "o.trades": "건설, 수리, 운송", "o.other": "기타",
+  "f.living.me": "월 생활비", "f.living.family": "가구 월 생활비", "f.living.h": "월세, 식비, 공과금, 교통비, 통신비, 보험료.",
+  "f.cogs": "재료·상품 원가 (매출의 %)", "f.cogs.h": "이 업종의 일반적인 숫자를 넣어 두었습니다. 알고 계시면 바꿔 주세요.",
+  "f.fixed": "월 임대료, 인건비, 기타 사업 비용",
+  "f.draw": "가족이 매달 가게에서 가져가는 돈",
+  "f.remit": "매달 해외 가족에게 보내는 돈", "f.remit.h": "해당 없으면 0으로 두세요.",
+  "f.debtKind": "어떤 빚인가요?", "o.card": "신용카드", "o.personal": "개인 대출", "o.car": "자동차 대출", "o.informal": "가족·지인에게 빌린 돈", "o.bank": "은행, 신용조합, SBA 대출", "o.online": "온라인·급전 대출",
+  "f.owed": "아직 얼마나 갚아야 하나요?", "f.loan": "대출이 얼마나 남았나요?",
+  "f.apr": "이자율 (연 %)", "f.apr.h": "이런 빚의 일반적인 이자율을 넣어 두었습니다. 명세서에서 실제 이자율을 확인하세요.",
+  "f.payment": "월 상환액", "f.payment.h": "이 빚에 매달 내는 금액.",
+  "f.years": "남은 상환 기간 (년)",
+  "f.savings": "비상시 쓸 수 있는 저축", "f.cash": "가게 보유 현금",
+  "ld.of": "/ {n}가지 미래 계산 완료", "ld.1": "무작위로 달을 뽑는 중…", "ld.2": "힘든 달을 넣는 중…", "ld.3": "한 달씩 상환하는 중…", "ld.4": "제때 갚은 미래를 세는 중…",
+  "r.eyebrow": "결과", "r.title": "상환이 밀릴 가능성", "r.edit": "답변 수정",
+  "band.low": "양호", "band.mid": "빠듯함", "band.high": "위험 높음",
+  "r.freq": "가능한 미래 100가지 중 {k}가지에서 빚을 다 갚기 전에 돈이 떨어집니다.",
+  "r.freq0": "가능한 미래 100가지 중 빚을 다 갚기 전에 돈이 떨어지는 경우는 1가지도 안 됩니다.",
+  "r.when": "그런 경우 보통 {m}번째 달쯤입니다.",
+  "r.ok": "제때 상환", "r.behind": "상환 밀림", "r.dotNote": "점 하나가 가능한 미래 100가지 중 하나입니다.",
+  "r.listen": "듣기", "r.stop": "멈추기", "r.copy": "계획 복사", "r.copied": "복사됨", "r.save": "계획 저장",
+  "r.rerun": "새로운 미래로 다시 계산", "r.restart": "처음부터",
+  "r.disclaimer": "입력한 숫자를 바탕으로 한 교육용 추정치이며 금융 자문이 아닙니다. 실제와 다를 수 있습니다.",
+  "k.pay": "월 상환액", "k.cushion": "비상금", "k.months": "{m}개월", "k.share": "소득 중 빚 상환 비율", "k.dscr": "부채 상환 능력", "k.payoff": "상환 완료까지", "k.never": "이 금액으로는 못 갚음", "k.interest": "총 이자", "k.left": "보통 달의 남는 돈",
+  "g.t": "잘하고 있는 점", "pl.t": "나의 계획", "pl.sub": "도움이 큰 순서대로.", "pl.impact": "위험을 {a}%에서 {b}%로 낮춤", "pl.saves": "이자 약 {s} 절약",
+  "G.cushion": "약 {m}개월치 생활비를 모아 두셨어요. 전문가들은 최소 3개월을 권합니다.",
+  "G.dti": "소득의 {p}%만 빚 상환에 씁니다. 15% 미만이면 여유가 있습니다.",
+  "G.dscr": "가게가 대출 상환에 필요한 금액의 {d}배를 법니다. 은행은 보통 1.25배 이상을 봅니다.",
+  "G.surplus": "보통 달에 약 {x}가 남습니다.",
+  "G.rate": "이자율 {r}%는 낮은 편입니다.",
+  "G.free": "가족·지인에게 빌린 돈에는 이자가 없습니다.",
+  "G.steady": "소득이 일정해서 계획하기 쉽습니다.",
+  "G.earners": "돈 버는 사람이 둘 이상이라 한 명이 일자리를 잃어도 소득이 다 끊기지 않습니다.",
+  "G.remit": "해외 가족을 도우면서도 제때 갚고 있습니다.",
+  "G.low": "상환이 밀릴 위험이 낮습니다.",
+  "G.checked": "위기가 오기 전에 위험을 점검하셨어요. 그게 가장 중요한 첫걸음입니다.",
+  "A.never.t": "상환액이 이자보다 적습니다", "A.never.b": "매달 {p}씩 내면 빚이 계속 늘어납니다. 대출 기관에 어려움 지원 프로그램을 문의하거나, 무료 비영리 신용 상담을 받아 보세요.",
+  "A.fast.t": "급전·페이데이 대출은 피하세요", "A.fast.b": "이런 대출은 이자가 매우 높은 경우가 많습니다. 급히 돈이 필요하면 신용조합의 소액 대출을 알아보거나 계모임 같은 무이자 대출 모임에 참여하세요.",
+  "A.dscr.t": "부채 상환 능력 1.25 이상을 목표로", "A.dscr.b": "현재 {d}입니다. 은행이 대출 심사에 쓰는 숫자라서, 높이면 나중에 더 좋은 이자율을 받을 수 있습니다.",
+  "A.credit.t": "신용 기록 쌓기", "A.credit.b": "제때 갚으면 신용이 쌓입니다. 미국에서 신용을 처음 쌓는다면 무이자 대출 모임이나 신용 구축 대출이 도움이 됩니다.",
+  "A.keep.t": "안전 자금 유지", "A.keep.b": "계획이 잘 되고 있습니다. 최소 3개월치 생활비를 저축해 두고, 소득이나 월세가 바뀌면 다시 점검하세요.",
+  "L.save.t": "비상금 늘리기", "L.save.b": "{x}를 더 모으면 수입이 끊겨도 약 한 달을 더 버틸 수 있습니다.",
+  "L.trim.t": "월 지출 10% 줄이기", "L.trim.b": "매달 약 {x}를 줄이면 힘든 달에 여유가 생깁니다.",
+  "L.trimB.t": "사업 비용 10% 줄이기", "L.trimB.b": "임대료, 인건비 등에서 매달 약 {x}를 줄이면 비수기에 여유가 생깁니다.",
+  "L.remit.t": "힘든 달에는 해외 송금을 조금 줄이기", "L.remit.b": "당분간 {y} 대신 {x}를 보내고 형편이 나아지면 채우면, 이곳과 고향의 가족 모두를 지킬 수 있습니다.",
+  "L.rate.t": "더 낮은 이자로 갈아타기", "L.rate.b": "{a}%에서 약 {b}%로 낮추면 내는 돈이 줄어듭니다. 신용조합과 지역 금융기관(CDFI)은 이자율이 더 좋은 경우가 많고, 일부는 사회보장번호 대신 ITIN을 받습니다.",
+  "L.term.t": "상환 기간 연장 요청", "L.term.b": "대출 기간을 {a}년에서 {b}년으로 늘리면 월 상환액이 {x}로 줄어듭니다. 총 이자는 늘어나므로 현금이 빠듯할 때 가장 도움이 됩니다.",
+  "L.extra.t": "매달 조금씩 더 갚기", "L.extra.b": "매달 {x}를 더 내면 {m}개월 일찍 다 갚습니다.",
+  "ch.open": "차트 보기", "ch.cash.t": "모든 미래에서의 저축",
+  "ch.cash.p": "진한 선은 보통의 미래입니다. 색칠된 띠는 대부분의 미래가 놓이는 범위입니다. 점선 아래는 저축이 바닥난 상태입니다.",
+  "ch.surv.t": "아직 제때 갚고 있는 미래", "ch.surv.p": "100%에서 시작해 미래 하나가 밀릴 때마다 내려갑니다.",
+  "ch.median": "보통의 미래", "ch.mid": "가운데 절반", "ch.wide": "대부분의 미래", "ch.zero": "저축 바닥", "ch.now": "지금", "ch.yr": "{n}년", "ch.mo": "{n}월", "ch.end": "마지막에 {p}% 정상",
+  "rs.t": "무료·저비용 도움", "rs.note": "이 기관들은 이 도구와 관계없는 독립 기관입니다. 여러 언어로 도움을 주는 곳이 많습니다.",
+  "rs.cfpb": "미국 정부가 여러 언어로 제공하는 쉬운 금융 안내.",
+  "rs.nfcc": "무료 또는 저비용 비영리 신용 상담과 부채 상환 계획.",
+  "rs.maf": "신용을 쌓도록 돕는 무이자 대출 모임.",
+  "rs.score": "소상공인을 위한 무료 1:1 멘토링.",
+  "rs.sbdc": "대출 신청 도움을 포함한 무료 사업 상담.",
+  "rs.sba": "지역 금융기관을 통한 소규모 사업 대출.",
+  "rs.cu": "가까운 신용조합 찾기. 대출 이자가 더 낮은 경우가 많습니다.",
+  "sv.eyebrow": "고등학생 연구자의 부탁",
+  "sv.h": "3번만 눌러서 제 연구를 도와주실 수 있나요?",
+  "sv.intro": "저는 이민 가정이 빚을 어떻게 감당하는지 연구하는 고등학생 Aiden입니다. 답변을 통해 이 도구가 어떤 분들께 닿는지 알 수 있습니다. 약 15초 걸립니다.",
+  "sv.fine": "개인정보 보호: 이름이나 이메일은 묻지 않으며, 결과는 합계로만 공개됩니다. 답변, 고른 대상, 언어, 위험 수준만 저장하고 입력한 숫자는 절대 저장하지 않습니다. 답변하시면 학생 연구 프로젝트 참여에 동의하는 것으로 봅니다. 18세 이상 성인만 참여할 수 있습니다. 모든 질문은 건너뛸 수 있습니다.",
+  "sv.step": "{t}문항 중 {n}번", "sv.first": "약 15초", "sv.last": "마지막 질문", "sv.left": "{n}개 남음",
+  "sv.back": "← 뒤로", "sv.skip": "건너뛰기", "sv.skipEnd": "건너뛰고 끝내기",
+  "sv.thanksN": "감사합니다! 지금까지 {n}명이 도와주셨어요.", "sv.thanksB": "이 도구가 필요한 가족을 아신다면 공유해 주시는 것이 가장 큰 도움입니다.", "sv.edit": "답변 수정",
+  "sv.doneH": "학생 연구 프로젝트를 도와주셨습니다.",
+  "q1.biz": "이민자가 운영하는 가게인가요?", "q1.p": "이민 가정이신가요?",
+  "q1.yes1": "네, 사장님이 이민자입니다", "q1.yes1p": "네, 제가 이민 왔습니다", "q1.yes2": "네, 이민자 자녀가 운영합니다", "q1.yes2p": "네, 부모님이 이민 오셨습니다", "q1.no": "아니요", "pn": "말하고 싶지 않음",
+  "q2": "가족의 출신 지역은 어디인가요?",
+  "rg.latam": "중남미·카리브", "rg.easia": "동아시아", "rg.seasia": "동남아시아", "rg.sasia": "남아시아", "rg.mena": "중동·북아프리카", "rg.africa": "사하라 이남 아프리카", "rg.europe": "유럽", "rg.usca": "미국·캐나다", "rg.other": "기타 지역",
+  "q3": "작년 가구 총소득은 대략 얼마였나요?",
+  "inc.1": "$35,000 미만", "inc.2": "$35,000 – $60,000", "inc.3": "$60,000 – $100,000", "inc.4": "$100,000 – $150,000", "inc.5": "$150,000 초과",
+  "plan.head": "Ten Thousand Futures 부채 계획", "plan.good": "잘하고 있는 점", "plan.steps": "다음 할 일",
+  "r.titleND": "돈이 바닥날 가능성",
+  "r.freqND": "가능한 미래 100가지 중 {k}가지에서 앞으로 {m}개월 안에 저축이 바닥납니다.",
+  "r.freq0ND": "가능한 미래 100가지 중 앞으로 {m}개월 안에 저축이 바닥나는 경우는 1가지도 안 됩니다.",
+  "r.freqNever": "매달 {p}씩으로는 이 빚을 끝내 다 갚지 못합니다. 또한 가능한 미래 100가지 중 {k}가지에서 {m}개월 안에 저축이 바닥납니다.",
+  "band.never": "빚 증가 중",
+  "A.help.t": "무료 상담을 서둘러 받아 보세요",
+  "A.help.b": "이 숫자대로라면 많은 미래에서 돈이 바닥납니다. 비영리 신용 상담사가 상환이 밀리기 전에 선택지를 무료로 함께 살펴봐 줄 수 있습니다.",
+  "A.helpB.b": "이 숫자대로라면 많은 미래에서 가게 자금이 부족해집니다. SCORE나 소기업 개발 센터(SBDC) 같은 무료 소상공인 상담이 상환이 밀리기 전에 선택지를 함께 살펴봐 줄 수 있습니다.",
+  "sv.next": "다음 분이신가요? 새로 점검 시작",
+  "m.title": "계산 방법",
+  "m.runs": "앞으로 {m}개월 동안 한 달씩, 가능한 미래 1만 가지를 시뮬레이션했습니다.",
+  "m.swing": "보통 달의 소득은 평소보다 약 {s}% 높거나 낮고, 좋은 달과 나쁜 달은 이어서 오는 경향이 있습니다.",
+  "m.swingB": "보통 달의 매출은 평소보다 약 {s}% 높거나 낮고, 좋은 달과 나쁜 달은 이어서 오는 경향이 있습니다.",
+  "m.bad": "대략 {y}년에 한 번, 실직이나 질병 같은 힘든 시기가 와서 {l}개월 동안 소득이 {c}% 줄어듭니다.",
+  "m.badB": "대략 {y}년에 한 번, 도로 공사, 질병, 거래처 상실 같은 비수기가 와서 {l}개월 동안 매출이 {c}% 줄어듭니다.",
+  "m.miss": "저축이 처음으로 0 아래로 떨어지는 달에 그 미래는 '상환 밀림'으로 셉니다.",
+  "m.limits": "이 모델은 가족의 도움, 새 대출, 중간에 바꾸실 계획은 반영하지 않습니다. 예측이 아니라 경고등으로 봐 주세요.",
+  "sv.thanks1": "감사합니다! 이 연구를 도와주신 첫 번째 분이세요.",
+  "G.lowND": "돈이 바닥날 위험이 낮습니다.",
+  "G.remitND": "해외 가족을 도우면서도 안정적으로 지내고 있습니다."
+}
+};
+const LOCALE = { en: "en-US", es: "es-US", zh: "zh-CN", vi: "vi-VN", ko: "ko-KR" };
+let lang = store.get("lang") || (() => { const n = (navigator.language || "en").slice(0, 2).toLowerCase(); return I18N[n] ? n : "en"; })();
+function t(k, v) {
+  let s = (I18N[lang] && I18N[lang][k] != null) ? I18N[lang][k] : (I18N.en[k] != null ? I18N.en[k] : k);
+  if (v) s = s.replace(/\{(\w+)\}/g, (_, n) => v[n] != null ? v[n] : "");
+  return s;
+}
+const nf = () => new Intl.NumberFormat(LOCALE[lang]);
+const money = v => { const r = Math.round(v); return (r < 0 ? "−" : "") + "$" + nf().format(Math.abs(r)); };
+const moneyK = v => { const a = Math.abs(v); return (v < 0 ? "−$" : "$") + (a >= 1000 ? (a / 1000).toFixed(a >= 100000 ? 0 : 1) + "k" : Math.round(a)); };
+const num = v => nf().format(v);
+
+/* ---------------- Questions ---------------- */
+const STEADY = ["steady", "some", "lots"];
+const PROFILES = {
+  me:     { steps: [["income", "steady"], ["living", "remit"], ["debtKind", "owed", "apr", "payment", "savings"]] },
+  family: { steps: [["income", "earners", "steady"], ["living", "remit"], ["debtKind", "owed", "apr", "payment", "savings"]] },
+  biz:    { steps: [["bizType", "sales", "steady"], ["cogs", "fixed", "draw", "remit"], ["debtKind", "loan", "apr", "years", "savings"]] }
+};
+const APR = { card: 24, personal: 13, car: 8, informal: 0, bank: 11, online: 35 };
+const COGS = { food: 40, retail: 60, service: 20, trades: 45, other: 45 };
+const DEFAULTS = {
+  me:     { income: 3600, steady: "some", living: 2500, remit: 200, debtKind: "card", owed: 7500, apr: 24, payment: 300, savings: 2500 },
+  family: { income: 7400, earners: "2", steady: "some", living: 5700, remit: 400, debtKind: "personal", owed: 22000, apr: 13, payment: 650, savings: 5000 },
+  biz:    { bizType: "food", sales: 42000, steady: "some", cogs: 40, fixed: 16000, draw: 5200, remit: 500, debtKind: "bank", loan: 90000, apr: 11, years: 5, savings: 20000 }
+};
+const FIELD = {
+  income:   { kind: "money", label: p => "f.income." + p, help: p => "f.income." + p + ".h" },
+  sales:    { kind: "money", label: () => "f.sales", help: () => "f.sales.h" },
+  steady:   { kind: "choice", label: p => p === "biz" ? "f.steady.biz" : "f.steady", opts: p => STEADY.map(s => [s, "o." + s + (p === "biz" ? "B" : "")]) },
+  earners:  { kind: "choice", label: () => "f.earners", opts: () => [["1", "o.e1"], ["2", "o.e2"], ["3", "o.e3"]] },
+  bizType:  { kind: "choice", label: () => "f.bizType", opts: () => ["food", "retail", "service", "trades", "other"].map(s => [s, "o." + s]) },
+  living:   { kind: "money", label: p => "f.living." + p, help: () => "f.living.h" },
+  cogs:     { kind: "pct", label: () => "f.cogs", help: () => "f.cogs.h" },
+  fixed:    { kind: "money", label: () => "f.fixed" },
+  draw:     { kind: "money", label: () => "f.draw" },
+  remit:    { kind: "money", label: () => "f.remit", help: () => "f.remit.h" },
+  debtKind: { kind: "choice", label: () => "f.debtKind", opts: p => (p === "biz" ? ["bank", "online", "card", "informal"] : ["card", "personal", "car", "informal"]).map(s => [s, "o." + s]) },
+  owed:     { kind: "money", label: () => "f.owed" },
+  loan:     { kind: "money", label: () => "f.loan" },
+  apr:      { kind: "pct", label: () => "f.apr", help: () => "f.apr.h", step: 0.5 },
+  payment:  { kind: "money", label: () => "f.payment", help: () => "f.payment.h" },
+  years:    { kind: "years", label: () => "f.years" },
+  savings:  { kind: "money", label: p => p === "biz" ? "f.cash" : "f.savings" }
+};
+
+let saved = store.get("state") || {};
+const S = {
+  profile: saved.profile || null, step: 0,
+  values: { me: { ...DEFAULTS.me, ...(saved.values && saved.values.me) }, family: { ...DEFAULTS.family, ...(saved.values && saved.values.family) }, biz: { ...DEFAULTS.biz, ...(saved.values && saved.values.biz) } },
+  touched: saved.touched || { me: {}, family: {}, biz: {} }
+};
+const persist = () => store.set("state", { profile: S.profile, values: S.values, touched: S.touched });
+
+/* ---------------- Views ---------------- */
+const VIEWS = ["home", "wizard", "results"];
+function show(view) {
+  VIEWS.forEach(v => { $(v).hidden = v !== view; });
+  const el = $(view);
+  Array.from(el.querySelectorAll(":scope > * > *")).forEach((c, i) => c.style.setProperty("--i", Math.min(i, 10)));
+  el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter");
+  window.scrollTo(0, 0);
+  $("skipLink").setAttribute("href", "#" + ({ home: "main", wizard: "wizTop", results: "resTop" })[view]);
+  const focusEl = ({ home: $("main"), wizard: $("wizTop"), results: $("resTop") })[view];
+  try { focusEl.focus({ preventScroll: true }); } catch (e) {}
+}
+function currentView() { return VIEWS.find(v => !$(v).hidden); }
+
+function applyStatic() {
+  document.documentElement.lang = LOCALE[lang];
+  $("lang").value = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  const v = currentView();
+  if (v === "wizard") renderWizard(true);
+  if (v === "results" && lastRes) { lastRes = analyze(lastRes.p, lastRes.v, lastRes.seed); renderResults(lastRes, false); }
+  if (v === "results") renderSurvey();
+  refreshTally();
+}
+
+/* ---------------- Wizard ---------------- */
+function startProfile(p) { S.profile = p; S.step = 0; persist(); renderWizard(); show("wizard"); }
+function renderWizard(keepFocus) {
+  const p = S.profile, steps = PROFILES[p].steps, vals = S.values[p];
+  $("wStep").textContent = t("w.step", { n: S.step + 1, t: steps.length });
+  $("wWho").textContent = t("p." + p);
+  $("wBar").style.width = ((S.step + 1) / steps.length * 100) + "%";
+  $("wTitle").textContent = t("w.s" + (S.step + 1));
+  $("wBack").textContent = S.step === 0 ? t("w.backHome") : t("w.back");
+  $("wNext").innerHTML = "";
+  $("wNext").append(document.createTextNode(S.step === steps.length - 1 ? t("w.run") : t("w.next")));
+  const ar = document.createElement("span"); ar.className = "arrow"; ar.setAttribute("aria-hidden", "true"); ar.textContent = "→"; $("wNext").append(ar);
+  $("wWarn").hidden = true;
+  const box = $("wFields"); box.textContent = "";
+  steps[S.step].forEach(key => box.appendChild(fieldEl(p, key, vals)));
+  if (!keepFocus) { box.classList.remove("q-enter"); void box.offsetWidth; box.classList.add("q-enter"); }
+}
+function fieldEl(p, key, vals) {
+  const f = FIELD[key], wrap = document.createElement("div"); wrap.className = "field";
+  const id = "f_" + key;
+  if (f.kind === "choice") {
+    const lab = document.createElement("div"); lab.className = "flabel"; lab.id = id + "_l"; lab.textContent = t(f.label(p)); wrap.appendChild(lab);
+    const seg = document.createElement("div"); seg.className = "seg"; seg.setAttribute("role", "radiogroup"); seg.setAttribute("aria-labelledby", id + "_l");
+    const opts = f.opts(p);
+    opts.forEach(([val, k], i) => {
+      const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "radio"); b.textContent = t(k);
+      const on = String(vals[key]) === val; b.setAttribute("aria-checked", on ? "true" : "false"); b.tabIndex = on || (!opts.some(o => String(vals[key]) === o[0]) && i === 0) ? 0 : -1;
+      b.addEventListener("click", () => setChoice(p, key, val));
+      b.addEventListener("keydown", e => {
+        const d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+        if (!d) return; e.preventDefault();
+        const nx = opts[(i + d + opts.length) % opts.length][0]; setChoice(p, key, nx);
+        const btns = $("wFields").querySelectorAll('[aria-labelledby="' + id + '_l"] button'); const j = (i + d + opts.length) % opts.length; if (btns[j]) btns[j].focus();
+      });
+      seg.appendChild(b);
+    });
+    wrap.appendChild(seg);
+  } else {
+    const lab = document.createElement("label"); lab.htmlFor = id; lab.textContent = t(f.label(p)); wrap.appendChild(lab);
+    if (f.help) { const h = document.createElement("p"); h.className = "help"; h.id = id + "_h"; h.textContent = t(f.help(p)); wrap.appendChild(h); }
+    const box = document.createElement("div"); box.className = "inbox";
+    const inp = document.createElement("input"); inp.type = "number"; inp.id = id; inp.inputMode = "decimal"; inp.min = "0";
+    inp.step = "any"; inp.value = vals[key];
+    if (f.help) inp.setAttribute("aria-describedby", id + "_h");
+    if (f.kind === "money") { const a = document.createElement("span"); a.className = "affix"; a.textContent = "$"; a.setAttribute("aria-hidden", "true"); box.appendChild(a); }
+    box.appendChild(inp);
+    if (f.kind === "pct") { const a = document.createElement("span"); a.className = "affix"; a.textContent = "%"; a.setAttribute("aria-hidden", "true"); box.appendChild(a); }
+    inp.addEventListener("input", () => { const v = parseFloat(inp.value); vals[key] = isFinite(v) ? Math.max(0, v) : 0; S.touched[p][key] = true; persist(); });
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); next(); } });
+    wrap.appendChild(box);
+  }
+  return wrap;
+}
+function setChoice(p, key, val) {
+  const vals = S.values[p];
+  vals[key] = val; S.touched[p][key] = true;
+  if (key === "debtKind" && !S.touched[p].apr) vals.apr = APR[val];
+  if (key === "bizType" && !S.touched[p].cogs) vals.cogs = COGS[val];
+  persist(); renderWizard(true);
+  const g = $("wFields").querySelector('[aria-labelledby="f_' + key + '_l"] [aria-checked="true"]'); if (g) g.focus();
+}
+function next() {
+  const p = S.profile, steps = PROFILES[p].steps, v = S.values[p];
+  if (S.step === steps.length - 1 && p !== "biz" && v.owed > 0 && !(v.payment > 0)) { $("wWarn").textContent = t("w.warnPay"); $("wWarn").hidden = false; return; }
+  if (S.step < steps.length - 1) { S.step++; renderWizard(); try { $("wizTop").focus({ preventScroll: true }); } catch (e) {} window.scrollTo(0, 0); }
+  else runAndShow(true);
+}
+$("wNext").addEventListener("click", next);
+$("wBack").addEventListener("click", () => { if (S.step === 0) show("home"); else { S.step--; renderWizard(); } });
+$("wExample").addEventListener("click", () => { S.values[S.profile] = { ...DEFAULTS[S.profile] }; S.touched[S.profile] = {}; persist(); renderWizard(); });
+document.querySelectorAll("[data-profile]").forEach(b => b.addEventListener("click", () => startProfile(b.dataset.profile)));
+$("brand").addEventListener("click", () => show("home"));
+
+/* ---------------- Model ---------------- */
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let x = Math.imul(a ^ a >>> 15, 1 | a); x = x + Math.imul(x ^ x >>> 7, 61 | x) ^ x; return ((x ^ x >>> 14) >>> 0) / 4294967296; }; }
+function normal(rng) { let u = 0; while (u === 0) u = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rng()); }
+function amort(bal, apr, n) { const r = apr / 1200; return bal <= 0 ? 0 : r === 0 ? bal / n : bal * r / (1 - Math.pow(1 + r, -n)); }
+function payoff(bal, apr, pay) {
+  let b = bal, m = 0, interest = 0; const r = apr / 1200;
+  if (b <= 0) return { months: 0, interest: 0 };
+  while (b > 0.5 && m < 600) { const i = b * r; if (pay <= i + 0.01) return { months: Infinity, interest: Infinity }; interest += i; b = b + i - pay; m++; }
+  return { months: m, interest };
+}
+function buildModel(p, v) {
+  const m = { p, cash: +v.savings || 0, apr: +v.apr || 0, remit: +v.remit || 0 };
+  const vol = p === "biz" ? { steady: .04, some: .07, lots: .13 } : { steady: .02, some: .08, lots: .2 };
+  m.vol = vol[v.steady] || .08;
+  if (p === "biz") {
+    m.base = +v.sales || 0; m.margin = Math.max(0, 1 - (+v.cogs || 0) / 100);
+    m.fixed = +v.fixed || 0; m.draw = +v.draw || 0; m.bal = +v.loan || 0;
+    m.T = Math.max(1, Math.round((+v.years || 1) * 12)); m.pay = amort(m.bal, m.apr, m.T);
+    m.shockP = .025; m.shockCut = .3; m.shockLen = 2; m.years = +v.years || 1;
+  } else {
+    m.base = +v.income || 0; m.margin = 1; m.fixed = +v.living || 0; m.draw = 0; m.bal = +v.owed || 0; m.pay = +v.payment || 0;
+    const po = payoff(m.bal, m.apr, m.pay); m.payoffMonths = po.months;
+    m.T = isFinite(po.months) ? Math.min(120, Math.max(12, po.months)) : 60;
+    const earners = p === "me" ? 1 : (+v.earners || 1);
+    m.earners = earners;
+    m.shockP = ({ steady: .006, some: .009, lots: .014 }[v.steady] || .009) * earners;
+    m.shockCut = p === "me" ? .75 : .75 / earners; m.shockLen = 3;
+  }
+  m.out = m.fixed + m.draw + m.remit;
+  return m;
+}
+function simulate(m, N, seed, full) {
+  const T = m.T, r = m.apr / 1200, rng = mulberry32(seed >>> 0);
+  const phi = m.p === "biz" ? .7 : .5, adj = m.vol * m.vol / (2 * (1 - phi * phi));
+  const cashPaths = full ? new Float32Array(N * T) : null;
+  const fail = new Int32Array(N).fill(-1);
+  for (let i = 0; i < N; i++) {
+    let cash = m.cash, d = 0, bal = m.bal, shock = 0;
+    for (let k = 0; k < T; k++) {
+      /* good and bad months cluster, then drift back toward normal (mean-reverting) */
+      d = phi * d + m.vol * normal(rng);
+      const lvl = m.base * Math.exp(d - adj);
+      if (shock === 0 && rng() < m.shockP) shock = m.shockLen;
+      const inc = shock > 0 ? lvl * (1 - m.shockCut) : lvl;
+      if (shock > 0) shock--;
+      cash += inc * m.margin - m.out;
+      if (bal > 0.005) { const it = bal * r; const svc = Math.min(m.pay, bal + it); bal = bal + it - svc; cash -= svc; }
+      if (cash < 0 && fail[i] < 0) fail[i] = k + 1;
+      if (full) cashPaths[i * T + k] = cash;
+    }
+  }
+  const fails = Array.from(fail).filter(x => x > 0).sort((a, b) => a - b);
+  const out = { T, N, p: fails.length / N, medFail: fails.length ? fails[fails.length >> 1] : null };
+  if (full) {
+    const qs = [.05, .25, .5, .75, .95], pct = qs.map(() => new Float64Array(T)), col = new Float64Array(N);
+    for (let k = 0; k < T; k++) { for (let i = 0; i < N; i++) col[i] = cashPaths[i * T + k]; col.sort(); qs.forEach((q, j) => { pct[j][k] = col[Math.min(N - 1, Math.floor(q * N))]; }); }
+    const surv = new Float64Array(T + 1); surv[0] = 1; let fi = 0;
+    for (let k = 1; k <= T; k++) { while (fi < fails.length && fails[fi] <= k) fi++; surv[k] = 1 - fi / N; }
+    out.pct = pct; out.surv = surv;
+  }
+  return out;
+}
+
+/* ---------------- Analysis: what's good, and the plan ---------------- */
+function analyze(p, v, seed) {
+  const m = buildModel(p, v);
+  const sim = simulate(m, 10000, seed, true);
+  const mean = m.base * m.margin;
+  const monthlyNeed = m.out + m.pay;
+  const res = { p, v, m, sim, seed };
+  res.cushion = monthlyNeed > 0 ? m.cash / monthlyNeed : 99;
+  res.surplus = mean - m.out - m.pay;
+  res.dti = p !== "biz" && m.base > 0 ? m.pay / m.base : null;
+  res.dscr = p === "biz" && m.pay > 0 ? (mean - m.fixed - m.draw) / m.pay : null;
+  const po = p === "biz" ? payoff(m.bal, m.apr, m.pay) : payoff(m.bal, m.apr, m.pay);
+  res.payoffMonths = p === "biz" ? m.T : po.months; res.interest = po.interest;
+  res.noDebt = !(m.bal > 0);
+  res.neverPay = p !== "biz" && m.bal > 0 && !isFinite(res.payoffMonths);
+  const base = sim.p;
+  const quick = mod => { const mm = { ...m, ...mod }; if (mod.recalc) { mm.pay = amort(mm.bal, mm.apr, mm.T); } return simulate(mm, 2500, seed, false).p; };
+  const baseQ = simulate(m, 2500, seed, false).p;
+  const levers = [];
+  const nice = x => x >= 1000 ? Math.round(x / 500) * 500 : Math.max(50, Math.round(x / 50) * 50);
+  /* more savings: one more month of needs */
+  const addSave = nice(monthlyNeed);
+  if (addSave > 0) levers.push({ k: "L.save", b: quick({ cash: m.cash + addSave }), vars: { x: money(addSave) } });
+  /* trim spending */
+  const trim = (p === "biz" ? m.fixed : m.fixed) * 0.10;
+  if (trim >= 20) levers.push({ k: p === "biz" ? "L.trimB" : "L.trim", b: quick({ fixed: m.fixed * .9, out: m.out - trim }), vars: { x: money(trim) } });
+  /* remittances, gently */
+  if (m.remit > 0 && base >= 0.05) { const half = nice(m.remit / 2); levers.push({ k: "L.remit", b: quick({ remit: m.remit - half, out: m.out - half }), vars: { x: money(m.remit - half), y: money(m.remit) } }); }
+  /* refinance */
+  const target = p === "biz" ? 8 : (v.debtKind === "car" ? 6 : 11);
+  if (m.apr >= target + 4 && m.bal > 0) {
+    let mod;
+    if (p === "biz") mod = { apr: target, recalc: true };
+    else { const newPay = Math.max(amort(m.bal, target, isFinite(m.payoffMonths) ? m.payoffMonths : 60), 0); mod = { apr: target, pay: Math.min(m.pay, newPay) }; }
+    levers.push({ k: "L.rate", b: quick(mod), vars: { a: num(m.apr), b: num(target) } });
+  }
+  /* longer term (business) */
+  if (p === "biz" && m.bal > 0 && base >= 0.05) { const ny = m.years + 2, nT = Math.round(ny * 12); const np = amort(m.bal, m.apr, nT); levers.push({ k: "L.term", b: quick({ T: Math.min(nT, 120), pay: np }), vars: { a: num(m.years), b: num(ny), x: money(np) } }); }
+  levers.forEach(l => { l.a = baseQ; });
+  const ranked = levers.filter(l => l.a - l.b >= 0.01).sort((x, y) => (y.a - y.b) - (x.a - x.b)).slice(0, 3);
+
+  const plan = [];
+  if (p !== "biz" && !isFinite(res.payoffMonths) && m.bal > 0) plan.push({ k: "A.never", urgent: true, vars: { p: money(m.pay) } });
+  if (v.debtKind === "online") plan.push({ k: "A.fast", urgent: true });
+  if (base >= 0.4) plan.push({ k: "A.help", bk: p === "biz" ? "A.helpB.b" : null, urgent: true });
+  /* report each change against the headline number, shifted by the effect measured on a smaller run */
+  ranked.forEach(l => { const after = Math.max(0, base - (l.a - l.b)); plan.push({ k: l.k, vars: l.vars, impact: t("pl.impact", { a: Math.round(base * 100), b: Math.round(after * 100) }) }); });
+  if (p === "biz" && res.dscr != null && res.dscr < 1.25) plan.push({ k: "A.dscr", vars: { d: res.dscr.toFixed(2) } });
+  if (base < 0.10 && m.bal > 0 && m.apr > 0 && res.surplus > 100) {
+    const extra = nice(Math.min(res.surplus * 0.4, Math.max(50, m.pay * 0.25)));
+    const a = payoff(m.bal, m.apr, m.pay), b = payoff(m.bal, m.apr, m.pay + extra);
+    if (isFinite(a.months) && isFinite(b.months) && a.months - b.months >= 1) plan.push({ k: "L.extra", vars: { x: money(extra), m: a.months - b.months }, impact: t("pl.saves", { s: money(a.interest - b.interest) }) });
+  }
+  if (v.debtKind !== "online" && (v.debtKind === "card" || v.debtKind === "informal" || p === "me")) plan.push({ k: "A.credit" });
+  if (base < 0.05 && plan.length < 3) plan.push({ k: "A.keep" });
+  res.plan = plan.slice(0, 5);
+
+  const good = [];
+  if (base < 0.05 && !res.neverPay) good.push({ k: res.noDebt ? "G.lowND" : "G.low" });
+  if (res.cushion >= 3) good.push({ k: "G.cushion", vars: { m: num(Math.floor(res.cushion)) } });
+  if (res.dti != null && res.dti <= 0.15 && m.pay > 0 && !res.neverPay) good.push({ k: "G.dti", vars: { p: Math.round(res.dti * 100) } });
+  if (res.dscr != null && res.dscr >= 1.25) good.push({ k: "G.dscr", vars: { d: res.dscr.toFixed(2) } });
+  if (res.surplus > 0) good.push({ k: "G.surplus", vars: { x: money(res.surplus) } });
+  if (v.debtKind === "informal") good.push({ k: "G.free" });
+  else if (m.apr > 0 && m.apr <= 8) good.push({ k: "G.rate", vars: { r: num(m.apr) } });
+  if (v.steady === "steady") good.push({ k: "G.steady" });
+  if (p === "family" && +v.earners > 1) good.push({ k: "G.earners" });
+  if (m.remit > 0 && base < 0.2) good.push({ k: res.noDebt ? "G.remitND" : "G.remit" });
+  good.push({ k: "G.checked" });
+  res.good = good.slice(0, 5);
+  return res;
+}
+
+/* ---------------- Drawing ---------------- */
+function tok(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function setup(cv) { const dpr = window.devicePixelRatio || 1, w = cv.clientWidth, h = cv.clientHeight; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); const ctx = cv.getContext("2d"); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, w, h); return { ctx, w, h }; }
+function niceTicks(lo, hi, n) { const span = hi - lo || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw))); const step = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => span / s <= n) || 10 * mag; const o = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) o.push(v); return o; }
+function axes(ctx, w, h, pad, T, ticks, y, fmt) {
+  ctx.font = "11px " + tok("--f-mono"); ctx.fillStyle = tok("--muted"); ctx.strokeStyle = tok("--line"); ctx.lineWidth = 1;
+  ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  ticks.forEach(v => { const yy = Math.round(y(v)) + .5; ctx.beginPath(); ctx.moveTo(pad.l, yy); ctx.lineTo(w - pad.r, yy); ctx.stroke(); ctx.fillText(fmt(v), pad.l - 8, yy); });
+  ctx.textAlign = "center"; ctx.textBaseline = "top";
+  const stepM = T <= 24 ? 6 : T <= 72 ? 12 : 24;
+  for (let k = 0; k <= T; k += stepM) { const xx = pad.l + (w - pad.l - pad.r) * k / T; ctx.fillText(k === 0 ? t("ch.now") : (k % 12 === 0 ? t("ch.yr", { n: k / 12 }) : t("ch.mo", { n: k })), xx, h - pad.b + 8); }
+}
+function clipTo(ctx, pad, w, h, f) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, pad.l + (w - pad.l - pad.r) * f + 6, h); ctx.clip(); }
+function drawFan(sim, f = 1) {
+  const { ctx, w, h } = setup($("fan")); if (!w) return;
+  const pad = { l: 58, r: 14, t: 10, b: 28 }, T = sim.T, [p5, p25, p50, p75, p95] = sim.pct;
+  let lo = Math.min(0, ...p5), hi = Math.max(0, ...p95);
+  const ticks = niceTicks(lo, hi, 5); lo = Math.min(lo, ticks[0]); hi = Math.max(hi, ticks[ticks.length - 1]);
+  const x = k => pad.l + (w - pad.l - pad.r) * (k + 1) / T, y = v => pad.t + (h - pad.t - pad.b) * (1 - (v - lo) / (hi - lo || 1));
+  axes(ctx, w, h, pad, T, ticks, y, moneyK);
+  ctx.strokeStyle = tok("--risk"); ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(pad.l, y(0)); ctx.lineTo(w - pad.r, y(0)); ctx.stroke(); ctx.setLineDash([]);
+  clipTo(ctx, pad, w, h, f);
+  const band = (a, b) => { ctx.beginPath(); for (let k = 0; k < T; k++) ctx.lineTo(x(k), y(b[k])); for (let k = T - 1; k >= 0; k--) ctx.lineTo(x(k), y(a[k])); ctx.closePath(); ctx.fillStyle = tok("--accent-soft"); ctx.fill(); };
+  band(p5, p95); band(p25, p75);
+  ctx.strokeStyle = tok("--accent"); ctx.lineWidth = 2.25; ctx.beginPath(); for (let k = 0; k < T; k++) ctx.lineTo(x(k), y(p50[k])); ctx.stroke();
+  ctx.restore();
+  if (f >= 1) { ctx.fillStyle = tok("--accent"); ctx.beginPath(); ctx.arc(x(T - 1), y(p50[T - 1]), 4, 0, 7); ctx.fill(); }
+}
+function drawSurv(sim, f = 1) {
+  const { ctx, w, h } = setup($("surv")); if (!w) return;
+  const pad = { l: 58, r: 14, t: 10, b: 28 }, T = sim.T;
+  const x = k => pad.l + (w - pad.l - pad.r) * k / T, y = v => pad.t + (h - pad.t - pad.b) * (1 - v);
+  axes(ctx, w, h, pad, T, [0, .25, .5, .75, 1], y, v => Math.round(v * 100) + "%");
+  clipTo(ctx, pad, w, h, f);
+  ctx.beginPath(); ctx.moveTo(x(0), y(0)); for (let k = 0; k <= T; k++) ctx.lineTo(x(k), y(sim.surv[k])); ctx.lineTo(x(T), y(0)); ctx.closePath(); ctx.fillStyle = tok("--accent-soft"); ctx.fill();
+  ctx.strokeStyle = tok("--accent"); ctx.lineWidth = 2.25; ctx.beginPath();
+  for (let k = 0; k <= T; k++) { if (!k) ctx.moveTo(x(0), y(1)); else { ctx.lineTo(x(k), y(sim.surv[k - 1])); ctx.lineTo(x(k), y(sim.surv[k])); } }
+  ctx.stroke(); ctx.restore();
+  if (f >= 1) { ctx.fillStyle = tok("--accent"); ctx.beginPath(); ctx.arc(x(T), y(sim.surv[T]), 4, 0, 7); ctx.fill(); ctx.fillStyle = tok("--ink"); ctx.font = "600 12px " + tok("--f-mono"); ctx.textAlign = "right"; const sv = sim.surv[T], below = sv > 0.8; ctx.textBaseline = below ? "top" : "bottom"; ctx.fillText(t("ch.end", { p: Math.round(sv * 100) }), w - pad.r - 8, below ? y(sv) + 8 : Math.max(14, y(sv) - 8)); }
+}
+
+/* Animation clock that keeps going even if the viewer pauses animation frames */
+const REDUCED = (() => { try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+const ease = x => 1 - Math.pow(1 - x, 3);
+function nextFrame(cb) { let done = false; const go = () => { if (done) return; done = true; cb(performance.now()); }; try { requestAnimationFrame(go); } catch (e) {} setTimeout(go, 34); }
+
+/* ---------------- Results ---------------- */
+let lastRes = null, animTok = 0;
+const pctTxt = x => (x * 100).toFixed(x < 0.1 && x > 0 ? 1 : 0) + "%";
+/* The headline adapts to the situation: no debt, a debt that never shrinks, or the usual case */
+function headline(res) {
+  const pr = res.sim.p, k = Math.round(pr * 100), T = res.sim.T;
+  const title = res.noDebt ? t("r.titleND") : t("r.title");
+  let freq;
+  if (res.neverPay) freq = t("r.freqNever", { p: money(res.m.pay), k, m: T });
+  else if (res.noDebt) freq = k === 0 ? t("r.freq0ND", { m: T }) : t("r.freqND", { k, m: T });
+  else freq = k === 0 ? t("r.freq0") : t("r.freq", { k });
+  const band = res.neverPay ? "never" : pr < 0.05 ? "low" : pr < 0.2 ? "mid" : "high";
+  return { title, freq, band, k };
+}
+function renderResults(res, animate) {
+  const pr = res.sim.p, H = headline(res), k = H.k;
+  res.band = H.band;
+  $("rTitle").textContent = H.title;
+  const pill = $("riskPill"); pill.className = "pill " + (H.band === "never" ? "high" : H.band); pill.textContent = t("band." + H.band);
+  $("freq").textContent = H.freq;
+  $("whenTxt").textContent = res.sim.medFail && k > 0 ? t("r.when", { m: res.sim.medFail }) : "";
+  const dots = $("dots"); dots.textContent = "";
+  for (let i = 0; i < 100; i++) { const d = document.createElement("i"); if (i >= 100 - k) d.className = "f"; dots.appendChild(d); }
+  dots.setAttribute("aria-label", H.freq);
+
+  const kp = $("kpis"); kp.textContent = "";
+  const add = (label, val, cls) => { const d = document.createElement("div"); d.className = "kpi" + (cls ? " " + cls : ""); const s = document.createElement("span"); s.textContent = label; const b = document.createElement("b"); b.textContent = val; d.append(s, b); kp.appendChild(d); };
+  add(t("k.pay"), money(res.m.pay));
+  add(t("k.cushion"), t("k.months", { m: res.cushion >= 99 ? "99+" : res.cushion.toFixed(1) }), res.cushion >= 3 ? "ok" : res.cushion < 1 ? "bad" : "");
+  if (res.p === "biz") add(t("k.dscr"), res.dscr != null ? res.dscr.toFixed(2) + "×" : "—", res.dscr == null ? "" : res.dscr >= 1.25 ? "ok" : "bad");
+  else add(t("k.share"), res.dti != null ? Math.round(res.dti * 100) + "%" : "—", res.dti != null && res.dti <= 0.15 ? "ok" : res.dti > 0.36 ? "bad" : "");
+  if (res.p !== "biz" && !isFinite(res.payoffMonths)) add(t("k.payoff"), t("k.never"), "bad");
+  else add(t("k.left"), money(res.surplus), res.surplus > 0 ? "ok" : "bad");
+
+  const gl = $("goodList"); gl.textContent = "";
+  res.good.forEach(g => { const li = document.createElement("li"); const s = document.createElement("span"); s.textContent = t(g.k, g.vars); li.appendChild(s); gl.appendChild(li); });
+  const pl = $("planList"); pl.textContent = "";
+  res.plan.forEach(it => {
+    const li = document.createElement("li"); if (it.urgent) li.className = "urgent";
+    const d = document.createElement("div"); const h = document.createElement("h4"); h.textContent = t(it.k + ".t", it.vars); const p = document.createElement("p"); p.textContent = t(it.bk || it.k + ".b", it.vars);
+    d.append(h, p);
+    if (it.impact) { const im = document.createElement("span"); im.className = "impact"; im.textContent = it.impact; d.appendChild(im); }
+    li.appendChild(d); pl.appendChild(li);
+  });
+
+  const rl = $("resList"); rl.textContent = "";
+  const RES = [["cfpb", "Consumer Financial Protection Bureau", "https://www.consumerfinance.gov/language/"]];
+  if (res.p === "biz") RES.push(["score", "SCORE", "https://www.score.org/"], ["sbdc", "America's SBDC", "https://americassbdc.org/"], ["sba", "SBA Microloans", "https://www.sba.gov/funding-programs/loans/microloans"]);
+  else RES.push(["nfcc", "NFCC", "https://www.nfcc.org/"]);
+  RES.push(["maf", "Mission Asset Fund", "https://missionassetfund.org/"], ["cu", "MyCreditUnion.gov", "https://mycreditunion.gov/"]);
+  RES.forEach(([k2, name, url]) => { const a = document.createElement("a"); a.href = url; a.target = "_blank"; a.rel = "noopener"; const b = document.createElement("b"); b.textContent = name + " ↗"; const s = document.createElement("span"); s.textContent = t("rs." + k2); a.append(b, s); rl.appendChild(a); });
+
+  /* plain-language assumptions behind this result */
+  const hl = $("howList"); hl.textContent = "";
+  const M = res.m, phi = M.p === "biz" ? .7 : .5, typicalSwing = M.vol / Math.sqrt(1 - phi * phi), yrs = 1 / (M.shockP * 12);
+  [t("m.runs", { m: res.sim.T }),
+   t(M.p === "biz" ? "m.swingB" : "m.swing", { s: Math.round(typicalSwing * 100) }),
+   t(M.p === "biz" ? "m.badB" : "m.bad", { y: num(yrs >= 10 ? Math.round(yrs) : Math.round(yrs * 10) / 10), c: Math.round(M.shockCut * 100), l: M.shockLen }),
+   t("m.miss"), t("m.limits")].forEach(txt => { const li = document.createElement("li"); li.textContent = txt; hl.appendChild(li); });
+
+  $("listenTxt").textContent = speaking ? t("r.stop") : t("r.listen");
+  $("copyTxt").textContent = t("r.copy");
+  $("fan").setAttribute("aria-label", t("ch.cash.t")); $("surv").setAttribute("aria-label", t("ch.surv.t"));
+
+  const drawCharts = f => { if ($("chartsBox").open) { drawFan(res.sim, f); drawSurv(res.sim, f); } };
+  if (!animate || REDUCED) { animTok++; $("pDefault").textContent = pctTxt(pr); drawCharts(1); return; }
+  const my = ++animTok, st = performance.now(), dur = 1000;
+  const tick = now => { if (my !== animTok) return; const f = Math.min(1, (now - st) / dur), e = ease(f); $("pDefault").textContent = pctTxt(pr * e); drawCharts(e); if (f < 1) nextFrame(tick); else { $("pDefault").textContent = pctTxt(pr); drawCharts(1); } };
+  nextFrame(tick);
+}
+$("chartsBox").addEventListener("toggle", () => { if ($("chartsBox").open && lastRes) { drawFan(lastRes.sim, 0); drawSurv(lastRes.sim, 0); if (REDUCED) { drawFan(lastRes.sim); drawSurv(lastRes.sim); return; } const st = performance.now(); const tick = now => { const f = Math.min(1, (now - st) / 800), e = ease(f); drawFan(lastRes.sim, e); drawSurv(lastRes.sim, e); if (f < 1) nextFrame(tick); }; nextFrame(tick); } });
+const redraw = () => { if (lastRes && !$("results").hidden && $("chartsBox").open) { drawFan(lastRes.sim); drawSurv(lastRes.sim); } };
+window.addEventListener("resize", redraw);
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw); } catch (e) {}
+new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+/* ---------------- Loader + run ---------------- */
+function playLoader(n, done) {
+  if (REDUCED) { done(); return; }
+  const loader = $("loader"); loader.hidden = false;
+  const { ctx, w, h } = setup($("ldCanvas"));
+  const rng = mulberry32((Math.random() * 1e9) | 0), steps = 48, paths = [];
+  for (let i = 0; i < 46; i++) { let v = .62; const pts = [v]; let hit = false; for (let k = 0; k < steps; k++) { v += (rng() - .53) * .09 + (rng() < .03 ? -.18 : 0); pts.push(v); if (v < .22) hit = true; } paths.push({ pts, hit }); }
+  const zeroY = h * (1 - .22), st = performance.now(), dur = 1500;
+  $("ldOf").textContent = " " + t("ld.of", { n: num(n) });
+  let finished = false;
+  const finish = () => { if (finished) return; finished = true; $("ldCount").textContent = num(n); $("ldBar").style.width = "100%"; setTimeout(() => { loader.hidden = true; done(); }, 160); };
+  setTimeout(finish, dur + 1200);
+  const frame = now => {
+    if (finished) return;
+    const f = Math.min(1, (now - st) / dur), e = ease(f);
+    try {
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = tok("--risk"); ctx.setLineDash([5, 4]); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, zeroY); ctx.lineTo(w, zeroY); ctx.stroke(); ctx.setLineDash([]);
+      const shown = Math.ceil(paths.length * Math.min(1, f * 1.6)), upto = Math.max(1, Math.floor(steps * Math.min(1, f * 1.3)));
+      ctx.lineWidth = 1.2;
+      for (let i = 0; i < shown; i++) { const P = paths[i]; ctx.globalAlpha = P.hit ? .55 : .3; ctx.strokeStyle = tok(P.hit ? "--risk" : "--accent"); ctx.beginPath(); for (let k = 0; k <= upto; k++) { const xx = w * k / steps, yy = h * (1 - Math.max(.02, Math.min(.98, P.pts[k]))); k ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); } ctx.stroke(); }
+      ctx.globalAlpha = 1;
+      $("ldCount").textContent = num(Math.round(n * e)); $("ldBar").style.width = (e * 100) + "%";
+      $("ldMsg").textContent = t("ld." + (1 + Math.min(3, Math.floor(f * 4))));
+    } catch (err) { finish(); return; }
+    if (f < 1) nextFrame(frame); else finish();
+  };
+  nextFrame(frame);
+}
+let running = false;
+function runAndShow(withLoader, newSeed) {
+  if (running) return; running = true;
+  const p = S.profile, v = { ...S.values[p] };
+  const seed = newSeed ? (Math.random() * 1e9) | 0 : 42;
+  let res = null;
+  const finish = () => {
+    if (!res) res = analyze(p, v, seed);
+    lastRes = res; show("results"); renderResults(res, true); renderSurvey(); noteRun(); running = false;
+  };
+  if (withLoader) { playLoader(10000, finish); setTimeout(() => { res = analyze(p, v, seed); }, 40); }
+  else finish();
+}
+$("rEdit").addEventListener("click", () => { S.step = 0; renderWizard(); show("wizard"); });
+$("restart").addEventListener("click", () => { stopSpeech(); resetSurvey(); show("home"); });
+$("rerun").addEventListener("click", () => runAndShow(true, true));
+
+/* ---------------- Listen, copy, save ---------------- */
+function planText() {
+  const r = lastRes; if (!r) return "";
+  const H = headline(r);
+  const lines = [t("plan.head"), "", H.title + ": " + pctTxt(r.sim.p) + " (" + t("band." + H.band) + ")", H.freq, "", t("plan.good") + ":"];
+  r.good.forEach(g => lines.push("• " + t(g.k, g.vars)));
+  lines.push("", t("plan.steps") + ":");
+  r.plan.forEach((it, i) => { lines.push((i + 1) + ". " + t(it.k + ".t", it.vars)); lines.push("   " + t(it.bk || it.k + ".b", it.vars) + (it.impact ? " (" + it.impact + ")" : "")); });
+  lines.push("", t("r.disclaimer"));
+  return lines.join("\n");
+}
+let speaking = false;
+const synth = window.speechSynthesis;
+if (synth && typeof SpeechSynthesisUtterance !== "undefined") $("listen").hidden = false;
+function stopSpeech() { try { synth && synth.cancel(); } catch (e) {} speaking = false; $("listenTxt").textContent = t("r.listen"); }
+$("listen").addEventListener("click", () => {
+  if (!synth) return;
+  if (speaking) { stopSpeech(); return; }
+  try {
+    const r = lastRes, H = headline(r);
+    const parts = [H.title + ": " + pctTxt(r.sim.p) + ".", H.freq, t("g.t") + ".", ...r.good.map(g => t(g.k, g.vars)), t("pl.t") + ".", ...r.plan.map(it => t(it.k + ".t", it.vars) + ". " + t(it.bk || it.k + ".b", it.vars))];
+    const u = new SpeechSynthesisUtterance(parts.join(" "));
+    u.lang = LOCALE[lang]; u.rate = 0.95;
+    const voice = synth.getVoices().find(vv => vv.lang && vv.lang.toLowerCase().startsWith(lang)); if (voice) u.voice = voice;
+    u.onend = u.onerror = () => { speaking = false; $("listenTxt").textContent = t("r.listen"); };
+    synth.cancel(); synth.speak(u); speaking = true; $("listenTxt").textContent = t("r.stop");
+  } catch (e) { stopSpeech(); }
+});
+$("copyPlan").addEventListener("click", () => {
+  const txt = planText();
+  const ok = () => { $("copyTxt").textContent = t("r.copied"); setTimeout(() => { $("copyTxt").textContent = t("r.copy"); }, 1800); };
+  try { navigator.clipboard.writeText(txt).then(ok, () => fallbackCopy(txt, ok)); } catch (e) { fallbackCopy(txt, ok); }
+});
+function fallbackCopy(txt, ok) { const ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); ok(); } catch (e) {} ta.remove(); }
+let downloads = null;
+if (!IN_VIEWER) $("savePlan").hidden = false;
+$("savePlan").addEventListener("click", async () => {
+  if (!IN_VIEWER) {
+    const url = URL.createObjectURL(new Blob([planText()], { type: "text/plain;charset=utf-8" }));
+    const a = document.createElement("a"); a.href = url; a.download = "my-debt-plan.txt"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000); return;
+  }
+  if (!downloads) return;
+  try { await downloads.save({ filename: "my-debt-plan.txt", data: planText() }); } catch (e) { if (e && (e.code === "unavailable" || e.code === "not_granted")) $("savePlan").hidden = true; }
+});
+
+/* ---------------- Survey + counters ----------------
+   Answers and run counts are saved in one of two places:
+   - On the public website: your Google Sheet, through the Apps Script web app below.
+   - Inside the claude.ai viewer (your private preview): the artifact's own data store,
+     because the viewer blocks requests to other websites.                              */
+const QS = [
+  { key: "immigrant", prompt: () => S.profile === "biz" ? "q1.biz" : "q1.p", opts: () => [["first-gen", S.profile === "biz" ? "q1.yes1" : "q1.yes1p"], ["second-gen", S.profile === "biz" ? "q1.yes2" : "q1.yes2p"], ["no", "q1.no"], ["prefer-not", "pn"]] },
+  { key: "origin", prompt: () => "q2", opts: () => [["latin-america", "rg.latam"], ["east-asia", "rg.easia"], ["southeast-asia", "rg.seasia"], ["south-asia", "rg.sasia"], ["mena", "rg.mena"], ["sub-saharan-africa", "rg.africa"], ["europe", "rg.europe"], ["us-canada", "rg.usca"], ["other", "rg.other"], ["prefer-not", "pn"]] },
+  { key: "income", prompt: () => "q3", opts: () => [["under-35k", "inc.1"], ["35-60k", "inc.2"], ["60-100k", "inc.3"], ["100-150k", "inc.4"], ["over-150k", "inc.5"], ["prefer-not", "pn"]] }
+];
+const SV_BAR = [.2, .6, .85, 1];
+const ans = {}; let svStep = 0, svDone = false;
+let base = null, localRuns = 0, localAnswers = 0;   /* totals saved so far, plus this visit's own activity (Sheet only) */
+function sheetPost(obj) {
+  try { fetch(SURVEY_ENDPOINT, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(obj) }).catch(() => {}); } catch (e) {}
+}
+function sheetTotals() {
+  window.__ttfTotals = d => { if (d && typeof d.runs === "number") { base = { runs: d.runs, answers: d.answers || 0 }; showTally(); } };
+  const sc = document.createElement("script");
+  sc.src = SURVEY_ENDPOINT + "?callback=__ttfTotals&t=" + Date.now(); sc.async = true; sc.onerror = () => {};
+  document.head.appendChild(sc);
+}
+const newEntryId = () => "e" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+let entryId = newEntryId(), entryCounted = false, respDocExists = null;
+let db = null, me = null, myRuns = 0, myAnswers = 0, ready = false, canWrite = true, pendingRuns = 0, runT;
+let chain = Promise.resolve(); const q = fn => (chain = chain.then(fn).catch(() => {}));
+function writeRunner() { return q(async () => { if (!db || !me || !canWrite) return; try { await db.doc("runners/" + me).set({ runs: myRuns, answers: myAnswers, lastRun: new Date().toISOString() }); } catch (e) { canWrite = false; if (!$("results").hidden) renderSurvey(); } }); }
+/* Every person who answers gets their own entry, so several people can answer on one device
+   (for example during in-person interviews). Entries live in one document per signed-in account. */
+function writeResponse() {
+  const answer = { profile: S.profile, riskBand: lastRes ? lastRes.band : null, lang, complete: svDone };
+  QS.forEach(x => { answer[x.key] = ans[x.key] || null; });
+  if (SHEET) { sheetPost(Object.assign({ type: "answer", id: entryId }, answer)); return; }
+  return q(async () => {
+  if (!db || !me || !canWrite) return;
+  const body = Object.assign({ step: svStep, answeredAt: new Date().toISOString() }, answer);
+  const ref = db.doc("responses/" + me), patch = { entries: { [entryId]: body } };
+  try {
+    if (respDocExists !== true) { const snap = await ref.get(); respDocExists = !!snap.exists; }
+    if (respDocExists) await ref.update(patch); else { await ref.set(patch); respDocExists = true; }
+  } catch (e) {}
+}); }
+function resetSurvey() { Object.keys(ans).forEach(k => { delete ans[k]; }); svStep = 0; svDone = false; entryId = newEntryId(); entryCounted = false; }
+function noteRun() {
+  if (SHEET) { sheetPost({ type: "run", profile: S.profile, lang }); localRuns++; showTally(); return; }
+  pendingRuns++; clearTimeout(runT); runT = setTimeout(flushRuns, 1200);
+}
+function flushRuns() { if (!ready || !pendingRuns) return; myRuns += pendingRuns; pendingRuns = 0; writeRunner(); }
+let tallySnap = null;
+function refreshTally() {
+  if (tallySnap) {
+    let runs = 0, a = 0; tallySnap.docs.forEach(d => { const v = d.data() || {}; runs += typeof v.runs === "number" ? v.runs : 0; a += typeof v.answers === "number" ? v.answers : 0; });
+    base = { runs, answers: a };
+  }
+  showTally();
+}
+const totalAnswers = () => base ? base.answers + localAnswers : localAnswers;
+const TALLY_MIN = 10;   /* the home page counter appears once at least this many checks have run */
+function showTally() {
+  if (!base) return;
+  $("tRuns").textContent = num(base.runs + localRuns); $("tAnswers").textContent = num(totalAnswers());
+  $("tallyCard").hidden = base.runs + localRuns < TALLY_MIN;
+  if (svDone) $("svThanksNum").textContent = thanksLine(totalAnswers());
+}
+const thanksLine = n => n <= 1 ? t("sv.thanks1") : t("sv.thanksN", { n: num(n) });
+function renderSurvey() {
+  if (!(SHEET || (ready && canWrite))) { $("survey").hidden = true; return; }
+  $("survey").hidden = false;
+  if (svDone) {
+    $("svQuiz").hidden = true; $("svThanks").hidden = false; $("svHead").textContent = t("sv.doneH"); $("svIntro").textContent = "";
+    $("svThanksNum").textContent = thanksLine(totalAnswers()); return;
+  }
+  $("svQuiz").hidden = false; $("svThanks").hidden = true;
+  $("svHead").textContent = t("sv.h"); $("svIntro").textContent = t("sv.intro");
+  const Q = QS[svStep];
+  $("svStep").textContent = t("sv.step", { n: svStep + 1, t: QS.length });
+  $("svTime").textContent = svStep === 0 ? t("sv.first") : svStep === QS.length - 1 ? t("sv.last") : t("sv.left", { n: QS.length - svStep });
+  $("svBar").style.width = (SV_BAR[svStep] * 100) + "%";
+  $("svPrompt").textContent = t(Q.prompt());
+  const box = $("svOpts"); box.textContent = "";
+  [$("svPrompt"), box].forEach(el => { el.classList.remove("q-enter"); void el.offsetWidth; el.classList.add("q-enter"); });
+  Q.opts().forEach(([val, k]) => { const b = document.createElement("button"); b.type = "button"; b.className = "opt" + (val === "prefer-not" ? " quiet" : ""); b.textContent = t(k); b.setAttribute("aria-pressed", ans[Q.key] === val ? "true" : "false"); b.addEventListener("click", () => { ans[Q.key] = val; box.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", o === b ? "true" : "false")); svAdvance(); }); box.appendChild(b); });
+  $("svBack").hidden = svStep === 0; $("svBack").textContent = t("sv.back");
+  $("svSkip").textContent = svStep === QS.length - 1 ? t("sv.skipEnd") : t("sv.skip");
+}
+function svAdvance() { svStep++; if (svStep >= QS.length) { svStep = QS.length - 1; svDone = true; if (!entryCounted) { entryCounted = true; if (SHEET) { localAnswers++; showTally(); } else { myAnswers++; writeRunner(); } } } writeResponse(); setTimeout(renderSurvey, 160); }
+$("svSkip").addEventListener("click", svAdvance);
+$("svBack").addEventListener("click", () => { if (svStep > 0) { svStep--; renderSurvey(); } });
+$("svEdit").addEventListener("click", () => { svDone = false; svStep = 0; renderSurvey(); });
+$("svNext").addEventListener("click", () => { stopSpeech(); resetSurvey(); show("home"); });
+
+(async () => {
+  if (SHEET) { sheetTotals(); return; }
+  if (!IN_VIEWER) return;
+  const [d, user, dl] = await Promise.all([window.claude.use("db"), window.claude.use("user"), window.claude.use("downloads")]);
+  if (dl) { downloads = dl; $("savePlan").hidden = false; }
+  if (!d) return;
+  db = d;
+  db.collection("runners").limit(1000).onSnapshot(s => { tallySnap = s; refreshTally(); }, () => {});
+  try { me = user ? await user.id() : null; } catch (e) { me = null; }
+  if (!me) return;
+  try { if (user && (await user.can("data.write")) === false) canWrite = false; } catch (e) {}
+  if (!canWrite) return;
+  try { const s = await db.doc("runners/" + me).get(); if (s.exists) { const v = s.data() || {}; myRuns = v.runs || 0; myAnswers = v.answers || 0; } } catch (e) {}
+  ready = true; flushRuns();
+  if (!$("results").hidden) renderSurvey();
+})();
+
+/* ---------------- Language + text size ---------------- */
+$("lang").addEventListener("change", () => { lang = $("lang").value; store.set("lang", lang); stopSpeech(); applyStatic(); });
+const big = !!store.get("big");
+function setBig(on) { document.documentElement.classList.toggle("big-text", on); $("bigText").setAttribute("aria-pressed", on ? "true" : "false"); store.set("big", on); redraw(); }
+setBig(big);
+$("bigText").addEventListener("click", () => setBig(!document.documentElement.classList.contains("big-text")));
+
+applyStatic();
+show("home");
+try { window.scrollTo(0, 0); } catch (e) {}
+window.__ttf = { analyze, DEFAULTS };
+})();
+</script>
+
+</body>
+</html>
